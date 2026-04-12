@@ -134,7 +134,58 @@
             color: white;
             box-shadow: 0 4px 12px rgba(49, 145, 183, 0.3);
         }
+/* ==========================================================
+   MOBILE OPTIMIZATION (COMBINED)
+   ========================================================== */
+@media (max-width: 900px) {
+    aside {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 20px;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
 
+    nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    nav li {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        margin-bottom: 0;
+    }
+
+    main {
+        margin-left: 0;
+        padding: 20px;
+        padding-bottom: 100px;
+    }
+
+    footer {
+        width: 100%;
+        padding: 15px 20px;
+        position: relative;
+    }
+
+    .home-hero-logo {
+        margin: 0 auto;
+        max-width: 280px;
+    }
+
+    .how-to-steps {
+        flex-direction: column;
+    }
+}
+
+/* ==========================================================
+   4. MAIN LAYOUT
+   ========================================================== */
         /* ==========================================================
            4. MAIN LAYOUT
            ========================================================== */
