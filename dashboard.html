@@ -1,0 +1,1930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Parenting Protocol | Command Center</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /* ==========================================================
+           1. BRAND TOKENS
+           ========================================================== */
+        :root {
+            --primary-navy:  #072a51;
+            --sidebar-dark:  #041a33;
+            --accent-blue:   #3191b7;
+            --brand-green:   #40aa78;
+            --bg-light:      #f8fafc;
+            --sidebar-width: 280px;
+        }
+
+        /* ==========================================================
+           2. RESET & GLOBAL TYPOGRAPHY
+           ========================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, .command-title {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 700;
+            color: var(--primary-navy);
+            letter-spacing: -0.01em;
+        }
+
+        body {
+            background: var(--bg-light);
+            display: flex;
+            color: #334155;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        /* ==========================================================
+           3. SIDEBAR
+           ========================================================== */
+        aside {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, var(--primary-navy) 0%, var(--sidebar-dark) 100%);
+            height: 100vh;
+            position: fixed;
+            padding: 40px 20px 20px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        nav { flex: 1; overflow-y: auto; padding-bottom: 10px; }
+        nav::-webkit-scrollbar { width: 4px; }
+        nav::-webkit-scrollbar-track { background: transparent; }
+        nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+        nav::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.35); }
+
+        .branding-zone {
+            margin-bottom: 24px;
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo-img {
+            max-width: 180px;
+            height: auto;
+            margin-bottom: 25px;
+            display: inline-block;
+            filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.3));
+        }
+
+        .command-center-box {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .protocol-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent-blue);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .command-title {
+            font-size: 1.6rem;
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            margin: 0;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        nav ul { list-style: none; margin-top: 20px; }
+
+        nav li {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        nav li:hover { background: rgba(255, 255, 255, 0.1); color: white; }
+
+        nav li.active {
+            background: var(--accent-blue);
+            color: white;
+            box-shadow: 0 4px 12px rgba(49, 145, 183, 0.3);
+        }
+
+        /* ==========================================================
+           4. MAIN LAYOUT
+           ========================================================== */
+        main {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            padding: 50px;
+            padding-bottom: 120px;
+        }
+
+        .tab-content { display: none; }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==========================================================
+           5. CARDS & SHARED TYPOGRAPHY
+           ========================================================== */
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 25px;
+        }
+
+        h1 { margin-bottom: 5px; font-size: 2.2rem; color: var(--primary-navy); }
+
+        .sub-header { color: #64748b; margin-bottom: 30px; font-size: 1.1rem; }
+
+        /* ==========================================================
+           6. STATUS PILLS  (single definition — used in both sections)
+           ========================================================== */
+        .status-pill,
+        .status-tag {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+
+        .status-green  { background: #dcfce7; color: #166534; }
+        .status-yellow { background: #fef9c3; color: #854d0e; }
+        .status-red    { background: #fee2e2; color: #991b1b; }
+
+        /* ==========================================================
+           7. APP AUDIT TABLE
+           ========================================================== */
+        .audit-table {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+
+        .audit-table th {
+            background-color: #f8fafc;
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 2px solid #e2e8f0;
+            color: #64748b;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .audit-table th:first-child { text-align: center; }
+
+        .audit-table td {
+            padding: 18px 10px;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .audit-table td:first-child {
+            border-right: 1px solid #f1f5f9;
+            text-align: center;
+        }
+
+        .audit-rating-emoji { font-size: 1.3rem; display: block; line-height: 1; }
+        .audit-rating-label { font-size: 0.6rem; font-weight: 800; text-transform: uppercase; color: #64748b; }
+
+        .app-link {
+            color: var(--accent-blue);
+            text-decoration: underline;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .audit-table { font-size: 14px; display: block; overflow-x: auto; }
+            .audit-table th,
+            .audit-table td { padding: 10px 8px; }
+        }
+
+        /* ==========================================================
+           8. CONTROLS & SEARCH
+           ========================================================== */
+        .controls-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex-grow: 1;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            font-size: 1rem;
+            width: 100%;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid #cbd5e1;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover { background: var(--primary-navy); color: white; border-color: var(--primary-navy); }
+
+        /* ==========================================================
+           9. PROMPT LIBRARY
+           ========================================================== */
+        .prompt-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .prompt-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .prompt-header h3 { font-size: 1rem; }
+
+        .category-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            background: #eff6ff;
+            color: #1e40af;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        pre {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px dashed #cbd5e1;
+            white-space: pre-wrap;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            color: #475569;
+        }
+
+        .copy-btn {
+            width: 100%;
+            background: #f1f5f9;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.2s;
+        }
+
+        .copy-btn:hover { background: var(--accent-blue); color: white; }
+
+        /* ==========================================================
+           10. BUTTONS & FOOTER
+           ========================================================== */
+        .btn-blue {
+            background: var(--accent-blue);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-blue:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+            box-shadow: 0 4px 12px rgba(49, 145, 183, 0.4);
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: calc(100% - var(--sidebar-width));
+            background: white;
+            padding: 15px 50px;
+            border-top: 1px solid #e2e8f0;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            z-index: 99;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 600;
+        }
+
+        /* ==========================================================
+           11. UTILITY & SECTION HELPERS
+           ========================================================== */
+
+        /* App Audit tab heading (smaller than h1) */
+        .section-heading {
+            font-size: 2rem;
+            color: var(--primary-navy);
+            margin-bottom: 5px;
+        }
+
+        /* Wrapper that spaces the search input from the table */
+        .search-wrapper { margin-bottom: 25px; }
+
+        /* Audit-specific search input (slightly heavier border than prompt search) */
+        .search-box-audit {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+        }
+
+        /* "Request an App Review" footer row */
+        .request-row {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .request-row p {
+            font-size: 1rem;
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+
+        /* Small variant of the blue button */
+        .btn-blue.btn-sm { padding: 10px 25px; }
+
+        /* Audit table column widths (set once here, not inline per-cell) */
+        .audit-table th:nth-child(1) { width:  80px; }
+        .audit-table th:nth-child(2) { width: 140px; }
+        .audit-table th:nth-child(3) { width: 190px; }
+        .audit-table th:nth-child(4) { width: 110px; }
+        .audit-table th:nth-child(5) { width: 260px; }
+
+        /* Tiny utilities used in JS-rendered table cells */
+        .fw-bold   { font-weight: 700; }
+        .text-navy { color: var(--primary-navy); }
+
+        /* ==========================================================
+           12. HOME TAB
+           ========================================================== */
+        .sidebar-subtitle {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.45);
+            text-align: center;
+            margin-top: 6px;
+            letter-spacing: 1px;
+        }
+
+        /* Nick quote */
+        .nick-quote {
+            background: linear-gradient(135deg, #f0f7fb 0%, #e8f4f9 100%);
+            border-left: 4px solid var(--accent-blue);
+            margin-top: 24px;
+        }
+        .nick-quote blockquote {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: #334155;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        .quote-attribution {
+            font-weight: 700;
+            color: var(--primary-navy);
+            font-size: 0.9rem;
+        }
+
+        /* What's Inside grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .feature-card {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .feature-icon { font-size: 2rem; line-height: 1; }
+        .feature-card h3 { font-size: 1.1rem; margin: 0; }
+        .feature-card p { flex-grow: 1; color: #64748b; font-size: 0.9rem; margin: 0; }
+        .feature-card .btn-blue { padding: 10px 20px; font-size: 0.9rem; align-self: flex-start; margin-top: 4px; }
+
+        /* Quick-start banner */
+        .quick-start-banner {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 1px solid #bae6fd;
+        }
+        .quick-start-banner > h2 { margin-bottom: 10px; font-size: 1.5rem; }
+        .quick-start-banner > p  { color: #64748b; font-size: 0.95rem; margin-bottom: 4px; }
+        .checklist-items { margin: 20px 0; display: flex; flex-direction: column; gap: 16px; }
+        .checklist-item  { display: flex; gap: 14px; align-items: flex-start; }
+        .check-box { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; color: var(--accent-blue); }
+        .check-content strong { display: block; color: var(--primary-navy); margin-bottom: 3px; font-size: 0.95rem; }
+        .check-content p { color: #64748b; font-size: 0.875rem; margin: 0; line-height: 1.55; }
+        .check-content em { font-style: normal; color: var(--accent-blue); font-weight: 600; }
+        .affiliate-note { font-size: 0.78rem; color: #94a3b8; margin-top: 14px; font-style: italic; }
+
+        /* Liaison Lab callout */
+        .liaison-callout {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 1px solid #bbf7d0;
+        }
+        .liaison-callout h2 { color: #167147; margin-bottom: 10px; font-size: 1.4rem; }
+        .liaison-callout p  { color: #334155; margin-bottom: 14px; }
+        .btn-green {
+            background: var(--brand-green);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-green:hover { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 4px 12px rgba(64,170,120,0.4); }
+        .callout-note { font-size: 0.82rem; color: #64748b; margin-top: 10px; font-style: italic; }
+
+        /* Course handout reference table */
+        .ref-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+        .ref-table th {
+            text-align: left; font-size: 0.72rem; text-transform: uppercase;
+            letter-spacing: 0.05em; color: #64748b; font-weight: 800;
+            padding: 8px 12px; border-bottom: 2px solid #e2e8f0;
+        }
+        .ref-table td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; font-size: 0.88rem; vertical-align: middle; }
+        .ref-table td:last-child { color: var(--accent-blue); font-weight: 600; cursor: pointer; }
+        .ref-table td:last-child:hover { text-decoration: underline; }
+        .ref-table tr:last-child td { border-bottom: none; }
+        .ref-table-intro { color: #64748b; font-size: 0.92rem; margin-bottom: 6px; }
+        .ref-table-footer { color: #64748b; font-size: 0.88rem; margin-top: 14px; line-height: 1.6; }
+        .home-hero-banner { margin-bottom: 16px; padding-bottom: 4px; border-bottom: 2px solid #e2e8f0; overflow: hidden; }
+        .home-hero-logo { max-width: 380px; width: 100%; height: auto; display: block; margin: -75px 0; }
+
+        /* ==========================================================
+           13. CONVERSATION GUIDE TAB
+           ========================================================== */
+        .start-here-card {
+            background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+            border: 1px solid #fde047;
+            border-left: 4px solid #eab308;
+        }
+        .start-here-label {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #854d0e;
+            margin-bottom: 12px;
+        }
+        .start-here-intro {
+            color: #64748b;
+            margin-bottom: 14px;
+            font-size: 0.95rem;
+        }
+        .why-it-works {
+            margin-top: 14px;
+            font-size: 0.88rem;
+            color: #475569;
+            background: rgba(255,255,255,0.65);
+            padding: 12px 16px;
+            border-radius: 8px;
+            line-height: 1.65;
+        }
+
+        .battle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .battle-card { display: flex; flex-direction: column; }
+        .battle-meta { margin-bottom: 10px; }
+        .battle-label {
+            display: block;
+            font-size: 0.62rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #94a3b8;
+            margin-bottom: 2px;
+            margin-top: 8px;
+        }
+        .battle-situation { font-weight: 700; color: var(--primary-navy); font-size: 0.92rem; }
+        .battle-happening { font-size: 0.85rem; color: #64748b; font-style: italic; }
+        .battle-card pre { flex-grow: 1; }
+        .battle-card .copy-btn { margin-top: auto; }
+
+        .age-group-card + .age-group-card { margin-top: 0; }
+        .age-group-title {
+            font-size: 1.1rem;
+            color: var(--primary-navy);
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .age-category { margin-bottom: 20px; }
+        .age-category:last-child { margin-bottom: 0; }
+        .age-category h4 {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-blue);
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        .age-category ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+        .age-category ul li {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 0.88rem;
+            color: #334155;
+            line-height: 1.55;
+        }
+
+        /* How-to-Use banner */
+        .how-to-banner { background: linear-gradient(135deg, #f0f7fb 0%, #e8f4f9 100%); border-left: 4px solid var(--accent-blue); }
+        .how-to-title { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-blue); margin-bottom: 16px; }
+        .how-to-steps { display: flex; gap: 20px; }
+        .how-to-step { display: flex; gap: 14px; flex: 1; }
+        .how-to-step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-blue); color: white; font-weight: 800; font-size: 0.82rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+        .how-to-step strong { display: block; color: var(--primary-navy); margin-bottom: 3px; font-size: 0.92rem; }
+        .how-to-step p { color: #64748b; font-size: 0.84rem; margin: 0; line-height: 1.5; }
+        @media (max-width: 900px) { .how-to-steps { flex-direction: column; } }
+
+        /* Battle card type tag */
+        .battle-type-tag { display: inline-block; font-size: 0.62rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 8px; border-radius: 20px; background: #eff6ff; color: #1e40af; margin-bottom: 4px; }
+
+        /* Collapsible battle cards */
+        .battle-header { cursor: pointer; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+        .battle-header-content { flex: 1; }
+        .battle-toggle-icon { font-size: 1.4rem; font-weight: 300; color: var(--accent-blue); flex-shrink: 0; line-height: 1; transition: transform 0.2s; user-select: none; }
+        .battle-card.expanded .battle-toggle-icon { transform: rotate(45deg); }
+        .battle-body { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid #f1f5f9; }
+        .battle-card.expanded .battle-body { display: block; }
+        .battle-card .battle-label { margin-top: 10px; }
+        .battle-card .battle-label:first-child { margin-top: 0; }
+
+        /* ==========================================================
+           14. EMERGENCY SCRIPTS TAB
+           ========================================================== */
+        .es-section-intro { color: #64748b; font-size: 0.92rem; margin-bottom: 20px; line-height: 1.6; }
+        .es-when { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent-blue); display: block; margin-bottom: 6px; }
+        .es-child-tag { font-size: 0.62rem; font-weight: 800; text-transform: uppercase; background: #dbeafe; color: #1e40af; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
+        .es-parent-tag { font-size: 0.62rem; font-weight: 800; text-transform: uppercase; background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
+        .es-safety-tag { font-size: 0.62rem; font-weight: 800; text-transform: uppercase; background: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
+        .es-email-subject { font-size: 0.83rem; font-weight: 700; color: #475569; background: #f1f5f9; padding: 8px 12px; border-radius: 6px; margin-bottom: 10px; border-left: 3px solid var(--accent-blue); }
+        .es-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .es-section-heading { margin: 35px 0 6px; }
+        .es-section-heading:first-of-type { margin-top: 10px; }
+        .es-jump-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+        .es-jump-btn { padding: 9px 18px; border-radius: 20px; border: 2px solid #e2e8f0; background: white; cursor: pointer; font-weight: 700; font-size: 0.85rem; transition: 0.2s; color: #475569; }
+        .es-jump-btn:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+
+        /* ==========================================================
+           15. SCHOOL LIAISON TAB
+           ========================================================== */
+        .sl-tag-proactive    { font-size: 0.62rem; font-weight: 800; text-transform: uppercase; background: #d1fae5; color: #065f46; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
+        .sl-tag-defensive    { font-size: 0.62rem; font-weight: 800; text-transform: uppercase; background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
+        .sl-tag-accommodation{ font-size: 0.62rem; font-weight: 800; text-transform: uppercase; background: #dbeafe; color: #1e40af; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
+        .sl-tag-escalation   { font-size: 0.62rem; font-weight: 800; text-transform: uppercase; background: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
+        .sl-template-num     { font-size: 0.72rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; display: block; }
+    </style>
+</head>
+<body>
+
+    <aside>
+        <div class="branding-zone">
+            <img src="AI Parenting Logo_Stacked white transparent.png" alt="AI Parenting Protocol" class="logo-img">
+        </div>
+        <nav>
+            <ul>
+                <li id="li-home"         onclick="showTab('home')"         class="active"><i class="fas fa-house"></i> Home</li>
+                <li id="li-audit"        onclick="showTab('audit')"        ><i class="fas fa-microscope"></i> App Audit</li>
+                <li id="li-prompts"      onclick="showTab('prompts')"      ><i class="fas fa-book"></i> Prompt Vault</li>
+                <li id="li-conversation" onclick="showTab('conversation')" ><i class="fas fa-comments"></i> Conversation Guide</li>
+                <li id="li-emergency"    onclick="showTab('emergency')"    ><i class="fas fa-life-ring"></i> Emergency Scripts</li>
+                <li id="li-scripts"      onclick="showTab('scripts')"      ><i class="fas fa-envelope"></i> School Liaison</li>
+                <li id="li-disclosure"   onclick="showTab('disclosure')"   ><i class="fas fa-file-lines"></i> Disclosure Kit</li>
+                <li id="li-constitution" onclick="showTab('constitution')" ><i class="fas fa-scroll"></i> Constitution Builder</li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main>
+
+        <!-- ===================== HOME ===================== -->
+        <div id="home" class="tab-content active">
+            <!-- Home logo -->
+            <div class="home-hero-banner">
+                <img src="AI Parenting Logo_Vertical Transparent.png" alt="AI Parenting Protocol" class="home-hero-logo">
+            </div>
+
+            <h1>Welcome to Your Implementation Command Center</h1>
+            <p class="sub-header">Everything you need to go from informed parent to confident AI steward — in one place.</p>
+
+            <!-- Nick Quote -->
+            <div class="card nick-quote">
+                <blockquote>"You've done the hard part — you showed up and learned. This dashboard is where the learning becomes action. Everything here is designed to save you time and give you the exact tools you need, right when you need them."</blockquote>
+                <p class="quote-attribution">— Nick Schuster, District AI Lead &amp; Creator of the AI Parenting Protocol</p>
+            </div>
+
+            <!-- What's Inside -->
+            <h2 class="section-heading" style="margin: 35px 0 6px;">What's Inside</h2>
+            <p class="sub-header" style="margin-bottom: 20px;">Seven tools, one dashboard — everything you need to become a confident AI parent.</p>
+            <div class="feature-grid">
+                <div class="card feature-card">
+                    <div class="feature-icon">🔬</div>
+                    <h3>App Audit</h3>
+                    <p>Searchable safety ratings for the top AI tools kids are using right now. Updated regularly.</p>
+                    <button class="btn-blue" onclick="showTab('audit')">Open</button>
+                </div>
+                <div class="card feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Prompt Vault</h3>
+                    <p>50+ easy to copy-paste Socratic prompts organized by subject. Turn any AI into a personal tutor in seconds.</p>
+                    <button class="btn-blue" onclick="showTab('prompts')">Open</button>
+                </div>
+                <div class="card feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Conversation Guide</h3>
+                    <p>Scripts and battle cards for starting (and surviving) the AI conversation with your kids.</p>
+                    <button class="btn-blue" onclick="showTab('conversation')">Open</button>
+                </div>
+                <div class="card feature-card">
+                    <div class="feature-icon">🆘</div>
+                    <h3>Emergency Scripts</h3>
+                    <p>Ready-to-use responses for the moments that catch you off guard — late-night homework meltdowns, school flags, and AI saying something it shouldn't.</p>
+                    <button class="btn-blue" onclick="showTab('emergency')">Open</button>
+                </div>
+                <div class="card feature-card">
+                    <div class="feature-icon">✉️</div>
+                    <h3>School Liaison</h3>
+                    <p>Email templates and advocacy scripts for every school situation, from proactive check-ins to plagiarism disputes.</p>
+                    <button class="btn-blue" onclick="showTab('scripts')">Open</button>
+                </div>
+                <div class="card feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Disclosure Kit</h3>
+                    <p>Sample completed AI disclosure forms for top subject areas like essays, math, and research — plus step-by-step chat export guides.</p>
+                    <button class="btn-blue" onclick="showTab('disclosure')">Open</button>
+                </div>
+                <div class="card feature-card">
+                    <div class="feature-icon">📜</div>
+                    <h3>Constitution Builder</h3>
+                    <p>The expanded Family AI Constitution with age-specific versions, clause library, and Human-Edge Ritual Library.</p>
+                    <button class="btn-blue" onclick="showTab('constitution')">Open</button>
+                </div>
+            </div>
+
+            <!-- Quick-Start Banner -->
+            <div class="card quick-start-banner">
+                <h2>New here? Welcome! Start with this sequence.</h2>
+                <p>Just purchased alongside the course? Work through these steps as you go — they're designed to match each module. Joining after the course? Work through this once in order and you'll be fully set up. Either way — you've got everything you need right here.</p>
+                <div class="checklist-items">
+                    <div class="checklist-item">
+                        <span class="check-box">☐</span>
+                        <div class="check-content">
+                            <strong>Step 1 — Tonight (5 min): Open the App Audit</strong>
+                            <p>See the full expanded list of apps — updated regularly, beyond what's in the course. Search for any app your child is using and check its rating. See a Green or Yellow app you want to explore? Click the app name to learn more — some links are affiliate links, which means we may earn a small commission at no extra cost to you. If you spot an app that's missing, use the "Request an App Review" button at the bottom. <em>Pairs with: Module 1</em></p>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-box">☐</span>
+                        <div class="check-content">
+                            <strong>Step 2 — Before you talk to your kid: Read the Conversation Guide</strong>
+                            <p>Before any rules, scripts, or tools — start here. The "Start Here" framing card gives you the one thing to say first that reframes the whole conversation. The Battle Cards are there for when things go sideways. <em>Pairs with: Module 2</em></p>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-box">☐</span>
+                        <div class="check-content">
+                            <strong>Step 3 — This week: Try one Prompt Vault script</strong>
+                            <p>Pick a subject your child is working on and copy a prompt into any AI tool — ChatGPT, Gemini, Claude, anything. First time? Start with the "Set Up Tutor Mode Once" card at the top of the Prompt Vault — takes 3 minutes and your child never has to retype a prompt again. <em>Pairs with: Module 3</em></p>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-box">☐</span>
+                        <div class="check-content">
+                            <strong>Step 4 — For the next assignment: Use the Disclosure Kit</strong>
+                            <p>Show your child one of the three sample completed disclosures so they know what a good one looks like. Then use the chat export guides to save their first AI conversation as a receipt. <em>Pairs with: Module 4</em></p>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-box">☐</span>
+                        <div class="check-content">
+                            <strong>Step 5 — Before the next big assignment is due: Send the proactive email</strong>
+                            <p>Open the School Liaison tab and send the Proactive AI Policy Inquiry to your child's core teachers. Two minutes per teacher, prevents 90% of future issues. <em>Pairs with: Module 5</em></p>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-box">☐</span>
+                        <div class="check-content">
+                            <strong>Step 6 — This weekend: Build your Family Constitution</strong>
+                            <p>Sit down together with the Constitution Builder. The expanded version here includes age-specific clauses and the Human-Edge Ritual Library — not in the base course. <em>Pairs with: Module 6</em></p>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-box">☐</span>
+                        <div class="check-content">
+                            <strong>Step 7 — Bookmark this dashboard</strong>
+                            <p>You'll come back to Emergency Scripts and School Liaison more than you think — especially the first time something unexpected happens. Save it somewhere you can find it fast.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-blue" onclick="showTab('audit')">Start with the App Audit →</button>
+                <p class="affiliate-note">Some links in this dashboard are affiliate links. We only recommend tools we've personally reviewed and rated. Any commission we earn helps us keep this resource updated and free of ads.</p>
+            </div>
+
+            <!-- AI Liaison Lab Callout -->
+            <div class="card liaison-callout">
+                <h2>Want to stay connected as AI keeps changing?</h2>
+                <p>New apps drop every week. Policies shift. Your kids discover something new before you've even heard of it. The AI Liaison Lab is where Nick shares monthly app vibe-checks, real-time alerts on new tools, and a community of parents figuring this out together. It's the ongoing support layer for everything you've built here.</p>
+                <button class="btn-green">Learn More About the Liaison Lab →</button>
+                <p class="callout-note">Members get first access to dashboard updates and new content as it's added.</p>
+            </div>
+
+            <!-- Course Handout Reference -->
+            <div class="card">
+                <h2 class="section-heading" style="font-size: 1.4rem; margin-bottom: 8px;">Already have the course handouts? Everything's here — upgraded.</h2>
+                <p class="ref-table-intro">If you're coming from the course, all your handouts are in this dashboard in an expanded, interactive form. Here's where everything lives:</p>
+                <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th>Course Handout</th>
+                            <th>Where to Find It in the Dashboard</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Module 1: App Audit</td>
+                            <td onclick="showTab('audit')">→ App Audit tab (searchable, filterable, updated)</td>
+                        </tr>
+                        <tr>
+                            <td>Module 2: AI Conversation Guide</td>
+                            <td onclick="showTab('conversation')">→ Conversation Guide tab (+ 10+ Battle Cards)</td>
+                        </tr>
+                        <tr>
+                            <td>Module 3: Socratic Prompt Guide</td>
+                            <td onclick="showTab('prompts')">→ Prompt Vault tab (Master Prompt pinned at top + 50+ subject prompts)</td>
+                        </tr>
+                        <tr>
+                            <td>Module 4: AI Partnership Disclosure Form</td>
+                            <td onclick="showTab('disclosure')">→ Disclosure Kit tab (blank form + 3 completed samples)</td>
+                        </tr>
+                        <tr>
+                            <td>Module 5: Parent-Teacher Script</td>
+                            <td onclick="showTab('scripts')">→ School Liaison tab (5 templates including proactive email)</td>
+                        </tr>
+                        <tr>
+                            <td>Module 6: Family AI Constitution</td>
+                            <td onclick="showTab('constitution')">→ Constitution Builder tab (expanded 6-section version)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="ref-table-footer">Already have the course handouts? Great — you're ahead of the game. We moved all of that info in here to keep from having two places to reference. Think of this dashboard as your course handouts expanded — more tools, more examples, and everything searchable and ready when you need it.</p>
+            </div>
+        </div><!-- /home -->
+
+        <!-- ===================== APP AUDIT ===================== -->
+        <div id="audit" class="tab-content">
+            <h2 class="section-heading">AI App Audit</h2>
+            <p class="sub-header">Strategic Safety &amp; Pedagogy Ratings: Decision guide for 2026 AI implementation.</p>
+
+            <div class="search-wrapper">
+                <input type="text" id="appSearch" class="search-box-audit"
+                       placeholder="Search by name, rating, or action step..."
+                       onkeyup="filterApps()">
+            </div>
+
+            <div id="appAuditContainer"></div>
+
+            <div class="request-row">
+                <p>Missing a tool? We review new apps regularly.</p>
+                <button class="btn-blue btn-sm">Request an App Review</button>
+            </div>
+        </div>
+
+        <!-- ===================== PROMPT VAULT ===================== -->
+        <div id="prompts" class="tab-content">
+            <h1>The Prompt Vault</h1>
+            <p class="sub-header">2026 Frameworks: Turning AI into a Socratic mentor for 50+ specialized subjects.</p>
+
+            <div class="controls-row">
+                <input type="text" id="promptSearch" class="search-box"
+                       placeholder="Search by subject (Math, Spanish, SAT)..."
+                       onkeyup="filterPrompts()">
+                <div id="filterContainer">
+                    <button class="filter-btn active" onclick="filterCategory(event, 'all')">All</button>
+                    <button class="filter-btn"        onclick="filterCategory(event, 'Test Prep')">SAT/ACT Prep</button>
+                    <button class="filter-btn"        onclick="filterCategory(event, 'Math')">Math</button>
+                    <button class="filter-btn"        onclick="filterCategory(event, 'Writing')">Writing</button>
+                    <button class="filter-btn"        onclick="filterCategory(event, 'Languages')">Languages</button>
+                    <button class="filter-btn"        onclick="filterCategory(event, 'STEM')">Science/STEM</button>
+                    <button class="filter-btn"        onclick="filterCategory(event, 'Humanities')">History &amp; Civics</button>
+                    <button class="filter-btn"        onclick="filterCategory(event, 'Life Skills')">Strategy &amp; Success</button>
+                </div>
+            </div>
+
+            <div class="prompt-grid" id="promptGrid">
+                <!-- Rendered by renderPrompts() in JS -->
+            </div><!-- /prompt-grid -->
+        </div><!-- /prompts -->
+
+        <!-- ===================== EMERGENCY SCRIPTS ===================== -->
+        <div id="emergency" class="tab-content">
+            <h1>Emergency Scripts</h1>
+            <p class="sub-header">Ready-to-use responses for the moments that catch you off guard.</p>
+
+            <!-- Quick Jump -->
+            <div class="es-jump-row">
+                <button class="es-jump-btn" onclick="document.getElementById('es-sec-a').scrollIntoView({behavior:'smooth'})">🤔 Homework Unstuck</button>
+                <button class="es-jump-btn" onclick="document.getElementById('es-sec-b').scrollIntoView({behavior:'smooth'})">📧 School Flag Response</button>
+                <button class="es-jump-btn" onclick="document.getElementById('es-sec-c').scrollIntoView({behavior:'smooth'})">🚨 AI Safety Concern</button>
+            </div>
+
+            <!-- ── Section A: Homework Unstuck ── -->
+            <h2 id="es-sec-a" class="section-heading es-section-heading">Section A: Homework Unstuck</h2>
+            <p class="es-section-intro">For when your child hits a wall. <strong>These prompts are for your child to paste directly into any AI tool</strong> — they get AI back into tutor mode without doing the work for them.</p>
+
+            <div class="es-grid">
+
+                <div class="card">
+                    <span class="es-child-tag">Child pastes into AI</span>
+                    <h3>🤔 I'm Stuck — Give Me a Hint</h3>
+                    <span class="es-when">When to use: Child has tried something but can't get past a specific step</span>
+                    <pre id="es1">I'm stuck and I've tried [describe what you tried]. Can you give me a clue about the next step without solving it for me?</pre>
+                    <button class="copy-btn" onclick="copyText('es1')">Copy Prompt</button>
+                </div>
+
+                <div class="card">
+                    <span class="es-child-tag">Child pastes into AI</span>
+                    <h3>📖 Show Me One Example</h3>
+                    <span class="es-when">When to use: Child understands the concept but can't execute it</span>
+                    <pre id="es2">I've tried these steps and I'm still confused. Can you show me ONE worked example of a similar problem — not this exact one — and then give me a new problem to try on my own?</pre>
+                    <button class="copy-btn" onclick="copyText('es2')">Copy Prompt</button>
+                </div>
+
+                <div class="card">
+                    <span class="es-child-tag">Child pastes into AI</span>
+                    <h3>🎮 Explain It Differently</h3>
+                    <span class="es-when">When to use: The standard explanation just isn't clicking</span>
+                    <pre id="es3">I've read the explanation twice and it's not clicking. Can you explain [concept] using an analogy related to [basketball/gaming/cooking/music — whatever your kid is into]? Then quiz me to see if I got it.</pre>
+                    <button class="copy-btn" onclick="copyText('es3')">Copy Prompt</button>
+                </div>
+
+                <div class="card">
+                    <span class="es-child-tag">Child pastes into AI</span>
+                    <h3>🧩 This Feels Overwhelming</h3>
+                    <span class="es-when">When to use: The task feels too big to start</span>
+                    <pre id="es4">This feels like too much at once. Can you break this into the 3 smallest possible first steps and just help me with step one?</pre>
+                    <button class="copy-btn" onclick="copyText('es4')">Copy Prompt</button>
+                </div>
+
+                <div class="card">
+                    <span class="es-child-tag">Child pastes into AI</span>
+                    <h3>✅ Quiz Me</h3>
+                    <span class="es-when">When to use: Child thinks they understand — time to verify</span>
+                    <pre id="es5">I think I understand this now. Can you quiz me with 3 questions to test if I actually get it? If I get one wrong, don't just tell me the answer — ask me a question to help me figure out where my thinking went wrong.</pre>
+                    <button class="copy-btn" onclick="copyText('es5')">Copy Prompt</button>
+                </div>
+
+            </div><!-- /es-grid A -->
+
+            <!-- ── Section B: School Flag Response ── -->
+            <h2 id="es-sec-b" class="section-heading es-section-heading">Section B: School Flag Response</h2>
+            <p class="es-section-intro">For when a teacher flags your child's work. Use these to buy time, gather evidence, and respond calmly — in this order.</p>
+
+            <div class="card">
+                <span class="es-parent-tag">Parent sends to teacher</span>
+                <h3>📧 Responding to a Flag — First Email</h3>
+                <span class="es-when">When to use: The moment you hear from the teacher — sends immediately, buys time</span>
+                <div class="es-email-subject">Subject: Re: [Assignment Name] — Request to Review Process</div>
+                <pre id="es6">Dear [Teacher Name],
+
+Thank you for bringing this to my attention. I want to work through this with you and I appreciate you reaching out directly.
+
+[Child's name] did use AI tools on this assignment, but as a tutor — not as the writer. We've been working on a documentation system at home, and I have chat logs and drafts that show the full process.
+
+Would you be available for a brief call or meeting this week? I'd love to walk you through the documentation together. I'm confident we can resolve this quickly.
+
+Thank you for your patience.
+
+[Your name]</pre>
+                <button class="copy-btn" onclick="copyText('es6')">Copy Email</button>
+            </div>
+
+            <div class="card">
+                <span class="es-parent-tag">Parent says in meeting</span>
+                <h3>🗣️ Meeting Opening — Parent to Teacher</h3>
+                <span class="es-when">When to use: Opening line for the in-person or phone meeting — sets a collaborative tone</span>
+                <pre id="es7">"Thank you for meeting with me. I want to start by saying I understand why this raised a flag, and I'm not here to be defensive. [Child's name] did use AI, but we've been teaching them to document their process as they go. I have the chat logs here — would it help to look through them together? I want to make sure you can see the thinking behind the work."</pre>
+                <button class="copy-btn" onclick="copyText('es7')">Copy Script</button>
+            </div>
+
+            <div class="card">
+                <span class="es-parent-tag">Parent presents in meeting</span>
+                <h3>📋 Presenting the Documentation</h3>
+                <span class="es-when">When to use: Once the teacher is willing to review — walk through the evidence in this order</span>
+                <pre id="es8">"Here's what we have:
+
+[1] The initial prompt that shows what [child] asked the AI to do — you can see they asked it to ask them questions, not write for them.
+
+[2] The conversation log showing the AI's questions and [child]'s answers.
+
+[3] Three drafts showing how the essay evolved.
+
+[4] The completed AI Partnership Disclosure form.
+
+Is there anything else that would be helpful?"</pre>
+                <button class="copy-btn" onclick="copyText('es8')">Copy Script</button>
+            </div>
+
+            <!-- ── Section C: AI Safety Concern ── -->
+            <h2 id="es-sec-c" class="section-heading es-section-heading">Section C: AI Safety Concern</h2>
+            <p class="es-section-intro">For when AI says something it shouldn't — or when you discover something concerning. Stay calm. These scripts keep the door open.</p>
+
+            <div class="es-grid">
+
+                <div class="card">
+                    <span class="es-safety-tag">Parent says to child</span>
+                    <h3>💬 Starting the Safety Conversation</h3>
+                    <span class="es-when">When to use: You want to open this topic proactively, before anything has happened</span>
+                    <pre id="es9">"Hey — I want to talk about something, and I promise this isn't a lecture. I read that some AI tools can say things that are really off sometimes — weird advice, dark stuff, things that push people in directions that aren't healthy. Has that ever happened to you? It's not a red flag if it has. I just want to know so we can talk about it."</pre>
+                    <button class="copy-btn" onclick="copyText('es9')">Copy Script</button>
+                </div>
+
+                <div class="card">
+                    <span class="es-safety-tag">Parent says to child</span>
+                    <h3>🤝 If They Tell You Something Happened</h3>
+                    <span class="es-when">When to use: They disclose something concerning — your response in this moment sets the tone for everything after</span>
+                    <pre id="es10">"Thank you for telling me. I mean it — that took guts. I'm not upset with you at all. [Pause.] Can you show me what happened so I understand exactly what we're dealing with? We're going to figure this out together. You're not in trouble."</pre>
+                    <button class="copy-btn" onclick="copyText('es10')">Copy Script</button>
+                </div>
+
+            </div><!-- /es-grid C -->
+
+            <div class="card">
+                <span class="es-safety-tag">Parent action guide</span>
+                <h3>🚨 Reporting Concerning AI Content — Step by Step</h3>
+                <span class="es-when">When to use: You've found content that crossed a line — screenshot first, then follow these steps</span>
+                <pre id="es11">Step 1: Screenshot the conversation immediately — before reporting or closing anything. Platform reports don't always preserve the conversation.
+
+Step 2: Find the Report button. Most platforms (Character.AI, Snapchat, ChatGPT) have a "Report" or "Flag" button on individual messages. Tap or click the message, then look for a flag or three-dot menu.
+
+Step 3: Select the most specific category available — e.g., "harmful content" or "inappropriate for minors." Vague reports are deprioritized.
+
+Step 4: Save your screenshot separately to your phone's camera roll or a folder on your computer. Do this even after reporting.
+
+Step 5: If the content involves self-harm or safety threats, contact the platform's Trust &amp; Safety team directly via email in addition to the in-app report. Don't wait for an automated response.</pre>
+                <button class="copy-btn" onclick="copyText('es11')">Copy Guide</button>
+            </div>
+
+        </div><!-- /emergency -->
+
+        <!-- ===================== CONVERSATION GUIDE ===================== -->
+        <div id="conversation" class="tab-content">
+            <h1>Conversation Guide</h1>
+            <p class="sub-header">Scripts and battle cards for starting — and surviving — the AI conversation with your kids.</p>
+
+            <!-- How-to-Use Banner -->
+            <div class="card how-to-banner">
+                <p class="how-to-title">📋 How to Use This Tab</p>
+                <div class="how-to-steps">
+                    <div class="how-to-step">
+                        <div class="how-to-step-num">1</div>
+                        <div>
+                            <strong>Before the conversation</strong>
+                            <p>Read the opening script below. Copy it, practice it out loud, make it yours — it doesn't need to be verbatim.</p>
+                        </div>
+                    </div>
+                    <div class="how-to-step">
+                        <div class="how-to-step-num">2</div>
+                        <div>
+                            <strong>During the conversation</strong>
+                            <p>If things go sideways, use the filters to find your situation fast. Click any card to expand the full script.</p>
+                        </div>
+                    </div>
+                    <div class="how-to-step">
+                        <div class="how-to-step-num">3</div>
+                        <div>
+                            <strong>For next time</strong>
+                            <p>Print the Battle Cards and keep them somewhere handy — you won't always have time to open a browser mid-conversation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Start Here Framing Card -->
+            <div class="card start-here-card">
+                <p class="start-here-label">📌 Start Here — The One Thing to Say First</p>
+                <p class="start-here-intro">Before any script, any rule, any conversation about what AI can and can't do — say this to your child. Or something like it, in your own words.</p>
+                <pre id="cg-start">"I want you to be really successful as an adult. Not just get good grades — actually successful. Someone who can think through hard problems, learn new things fast, figure out what's true, and make smart decisions under pressure. Someone who can pursue whatever lights you up — your passion, your path, whatever that turns out to be — and actually thrive doing it. Not because someone handed it to you, but because you have the skills to figure things out, think strategically, and use every tool available to go further than you could on your own.
+
+AI can either help you build those skills faster, or it can quietly steal them from you while making everything look fine on the surface. A kid who uses AI to do their thinking can end up with good grades but weak skills. A kid who uses AI to push their thinking will end up with strong skills — and honestly, likely better grades too.
+
+That's the only thing I care about here. Think of it like a calculator — a great tool, but only if you understand the math underneath it. AI is the same idea, just for thinking. Use it. But make sure the thinking is still yours."</pre>
+                <button class="copy-btn" onclick="copyText('cg-start')">Copy Script</button>
+                <p class="why-it-works"><strong>Why this works:</strong> It removes the adversarial framing entirely. You're not a cop enforcing rules. You're a parent who wants them to win — and who sees a risk they might not see yet. That's a completely different conversation.</p>
+            </div>
+
+            <!-- Section A: Battle Cards -->
+            <h2 class="section-heading" style="margin: 35px 0 6px;">Battle Cards — When Teens Push Back</h2>
+            <p class="sub-header" style="margin-bottom: 16px;">Filter by situation type, click a card to expand the script, copy it, and say it in your own words.</p>
+
+            <!-- Filter row + Print button -->
+            <div class="controls-row" style="margin-bottom: 20px;">
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="filter-btn active" onclick="filterBattleCards(event,'all')">All (14)</button>
+                    <button class="filter-btn" onclick="filterBattleCards(event,'Avoidance')">Avoidance</button>
+                    <button class="filter-btn" onclick="filterBattleCards(event,'Shutdown')">Shutdown</button>
+                    <button class="filter-btn" onclick="filterBattleCards(event,'Defensiveness')">Defensiveness</button>
+                    <button class="filter-btn" onclick="filterBattleCards(event,'Anger')">Anger</button>
+                    <button class="filter-btn" onclick="filterBattleCards(event,'Testing You')">Testing You</button>
+                    <button class="filter-btn" onclick="filterBattleCards(event,'Bargaining')">Bargaining</button>
+                </div>
+                <button class="btn-blue btn-sm" onclick="printBattleCards()" style="white-space:nowrap;">🖨 Print Battle Cards</button>
+            </div>
+
+            <div class="battle-grid">
+
+                <div class="card battle-card" data-type="Avoidance">
+                    <div class="battle-header" onclick="toggleBattleCard(this)">
+                        <div class="battle-header-content">
+                            <span class="battle-type-tag">Avoidance</span>
+                            <span class="battle-label">Situation</span>
+                            <p class="battle-situation">They say "I don't know" to everything</p>
+                        </div>
+                        <span class="battle-toggle-icon">+</span>
+                    </div>
+                    <div class="battle-body">
+                        <span class="battle-label">What's Happening</span>
+                        <p class="battle-happening">Disengagement — they're hoping you'll give up</p>
+                        <span class="battle-label">Your Move</span>
+                        <pre id="bc1">"That's okay. Let me ask it differently. If you HAD to guess, what would you say?" (Then wait. Silence is your friend here.)</pre>
+                        <button class="copy-btn" onclick="copyText('bc1')">Copy Script</button>
+                    </div>
+                </div>
+
+                <div class="card battle-card" data-type="Shutdown">
+                    <div class="battle-header" onclick="toggleBattleCard(this)">
+                        <div class="battle-header-content">
+                            <span class="battle-type-tag">Shutdown</span>
+                            <span class="battle-label">Situation</span>
+                            <p class="battle-situation">"Whatever. It's fine."</p>
+                        </div>
+                        <span class="battle-toggle-icon">+</span>
+                    </div>
+                    <div class="battle-body">
+                        <span class="battle-label">What's Happening</span>
+                        <p class="battle-happening">Shutdown — they feel criticized or monitored</p>
+                        <span class="battle-label">Your Move</span>
+                        <pre id="bc2">"I hear you. I'm not trying to make this a big deal. I just want us to have a plan so neither of us has to stress about it. Two minutes, then we're done."</pre>
+                        <button class="copy-btn" onclick="copyText('bc2')">Copy Script</button>
+                    </div>
+                </div>
+
+                <div class="card battle-card" data-type="Defensiveness">
+                    <div class="battle-header" onclick="toggleBattleCard(this)">
+                        <div class="battle-header-content">
+                            <span class="battle-type-tag">Defensiveness</span>
+                            <span class="battle-label">Situation</span>
+                            <p class="battle-situation">"Everyone uses it. I'm not doing anything wrong."</p>
+                        </div>
+                        <span class="battle-toggle-icon">+</span>
+                    </div>
+                    <div class="battle-body">
+                        <span class="battle-label">What's Happening</span>
+                        <p class="battle-happening">Defensiveness — they feel singled out</p>
+                        <span class="battle-label">Your Move</span>
+                        <pre id="bc3">"I know, lots of people are using it! Some are using it in really smart ways that actually help them learn and grow. And some are using it in ways that could hurt them down the road, and they don't even realize it yet. I just want to make sure it's actually working for you, not against you."</pre>
+                        <button class="copy-btn" onclick="copyText('bc3')">Copy Script</button>
+                    </div>
+                </div>
+
+                <div class="card battle-card" data-type="Anger">
+                    <div class="battle-header" onclick="toggleBattleCard(this)">
+                        <div class="battle-header-content">
+                            <span class="battle-type-tag">Anger</span>
+                            <span class="battle-label">Situation</span>
+                            <p class="battle-situation">They get angry or storm off</p>
+                        </div>
+                        <span class="battle-toggle-icon">+</span>
+                    </div>
+                    <div class="battle-body">
+                        <span class="battle-label">What's Happening</span>
+                        <p class="battle-happening">Overwhelm — too much, wrong moment</p>
+                        <span class="battle-label">Your Move</span>
+                        <pre id="bc4">Let them go. Wait 20 minutes. Then: "I don't need to finish this tonight. But can we pick a time this week when you're not stressed? I actually think you'll find this useful."</pre>
+                        <button class="copy-btn" onclick="copyText('bc4')">Copy Script</button>
+                    </div>
+                </div>
+
+                <div class="card battle-card" data-type="Testing You">
+                    <div class="battle-header" onclick="toggleBattleCard(this)">
+                        <div class="battle-header-content">
+                            <span class="battle-type-tag">Testing You</span>
+                            <span class="battle-label">Situation</span>
+                            <p class="battle-situation">"You don't understand how it works."</p>
+                        </div>
+                        <span class="battle-toggle-icon">+</span>
+                    </div>
+                    <div class="battle-body">
+                        <span class="battle-label">What's Happening</span>
+                        <p class="battle-happening">Actually an opening — they want to explain</p>
+                        <span class="battle-label">Your Move</span>
+                        <pre id="bc5">"You're probably right. Show me. I want to understand how you use it." (Then actually listen. This often becomes the best conversation.)</pre>
+                        <button class="copy-btn" onclick="copyText('bc5')">Copy Script</button>
+                    </div>
+                </div>
+
+                <div class="card battle-card" data-type="Avoidance">
+                    <div class="battle-header" onclick="toggleBattleCard(this)">
+                        <div class="battle-header-content">
+                            <span class="battle-type-tag">Avoidance</span>
+                            <span class="battle-label">Situation</span>
+                            <p class="battle-situation">They're hiding usage — you find out after</p>
+                        </div>
+                        <span class="battle-toggle-icon">+</span>
+                    </div>
+                    <div class="battle-body">
+                        <span class="battle-label">What's Happening</span>
+                        <p class="battle-happening">Fear of punishment drove it underground</p>
+                        <span class="battle-label">Your Move</span>
+                        <pre id="bc6">"I'm not angry. I want to understand why you didn't feel like you could tell me. That part matters more to me than the AI thing." (Then address the hiding, not the AI.)</pre>
+                        <button class="copy-btn" onclick="copyText('bc6')">Copy Script</button>
+                    </div>
+                </div>
+
+                <div class="card battle-card" data-type="Defensiveness">
+                    <div class="battle-header" onclick="toggleBattleCard(this)">
+                        <div class="battle-header-content">
+                            <span class="battle-type-tag">Defensiveness</span>
+                            <span class="battle-label">Situation</span>
+                            <p class="battle-situation">"It's just for fun, it's not hurting anything."</p>
+                        </div>
+                        <span class="battle-toggle-icon">+</span>
+                    </div>
+                    <div class="battle-body">
+                        <span class="battle-label">What's Happening</span>
+                        <p class="battle-happening">They've compartmentalized — school vs. personal</p>
+                        <span class="battle-label">Your Move</span>
+                        <pre id="bc7">"I'm not worried about the fun part — honestly, a lot of what you're doing with it is really cool. But here's the thing: this technology is moving faster than anyone can keep up with, including the people building it. It doesn't have a conscience, it doesn't always get things right, and sometimes it just... agrees with everything you say whether it's true or not. So I'm not worried you're doing something wrong — I'm just curious. Has it ever said something that felt off, or weird, or like it was pushing you in a direction that didn't feel quite right?"</pre>
+                        <button class="copy-btn" onclick="copyText('bc7')">Copy Script</button>
+                    </div>
+                </div>
+
+                <div class="card battle-card" data-type="Shutdown">
+                    <div class="battle-header" onclick="toggleBattleCard(this)">
+                        <div class="battle-header-content">
+                            <span class="battle-type-tag">Shutdown</span>
+                            <span class="battle-label">Situation</span>
+                            <p class="battle-situation">They shut down and won't engage at all</p>
+                        </div>
+                        <span class="battle-toggle-icon">+</span>
+                    </div>
+                    <div class="battle-body">
+                        <span class="battle-label">What's Happening</span>
+                        <p class="battle-happening">Wrong environment or timing</p>
+                        <span class="battle-label">Your Move</span>
+                        <pre id="bc8">Change the setting. Try in the car, on a walk, or anywhere side-by-side — research consistently shows teens open up more when they're not being looked at directly. Face-to-face can feel like an interrogation; side-by-side can feel like a conversation.</pre>
+                        <button class="copy-btn" onclick="copyText('bc8')">Copy Script</button>
+                    </div>
+                </div>
+
+                <div class="card battle-card" data-type="Defensiveness">
+                    <div class="battle-header" onclick="toggleBattleCard(this)">
+                        <div class="battle-header-content">
+                            <span class="battle-type-tag">Defensiveness</span>
+                            <span class="battle-label">Situation</span>
+                            <p class="battle-situation">"My teacher said we can't use it at all."</p>
+                        </div>
+                        <span class="battle-toggle-icon">+</span>
+                    </div>
+                    <div class="battle-body">
+                        <span class="battle-label">What's Happening</span>
+                        <p class="battle-happening">Conflicting rules between home and school</p>
+                        <span class="battle-label">Your Move</span>
+                        <pre id="bc9">"Good — then we follow that teacher's rules in that class, no exceptions. But let's talk about the other classes, and what to do when the rules aren't clear."</pre>
+                        <button class="copy-btn" onclick="copyText('bc9')">Copy Script</button>
+                    </div>
+                </div>
+
+                <div class="card battle-card" data-type="Testing You">
+                    <div class="battle-header" onclick="toggleBattleCard(this)">
+                        <div class="battle-header-content">
+                            <span class="battle-type-tag">Testing You</span>
+                            <span class="battle-label">Situation</span>
+                            <p class="battle-situation">They turn it around — "Do YOU use AI?"</p>
+                        </div>
+                        <span class="battle-toggle-icon">+</span>
+                    </div>
+                    <div class="battle-body">
+                        <span class="battle-label">What's Happening</span>
+                        <p class="battle-happening">Testing fairness — a genuine question</p>
+                        <span class="battle-label">Your Move</span>
+                        <pre id="bc10">"Yes, actually. I use it for [real example]. And I've made mistakes with it too. That's actually part of why I want us to talk about this together." (Honesty here earns enormous trust.)</pre>
+                        <button class="copy-btn" onclick="copyText('bc10')">Copy Script</button>
+                    </div>
+                </div>
+
+                <div class="card battle-card" data-type="Anger">
+                    <div class="battle-header" onclick="toggleBattleCard(this)">
+                        <div class="battle-header-content">
+                            <span class="battle-type-tag">Anger</span>
+                            <span class="battle-label">Situation</span>
+                            <p class="battle-situation">The Reset — the whole conversation has gone sideways</p>
+                        </div>
+                        <span class="battle-toggle-icon">+</span>
+                    </div>
+                    <div class="battle-body">
+                        <span class="battle-label">What's Happening</span>
+                        <p class="battle-happening">They've stopped hearing you — it feels like surveillance, not support</p>
+                        <span class="battle-label">Your Move</span>
+                        <pre id="bc11">Stop. Take a breath. And say this:
+
+"Let me start over. I don't actually care about the AI rules right now. What I care about is that you become an adult who genuinely thrives — who thinks strategically, follows your passions, and knows how to leverage tools to go further, rather than having tools and companies leverage you. Someone who can figure things out, learn fast, and make smart decisions on your own terms.
+
+That's what I want for you. Everything else — the rules, the documentation, all of it — is just me trying to protect that.
+
+So can we talk about that instead? What do you actually want? What are you passionate about, and what do you want to be really good at?"</pre>
+                        <button class="copy-btn" onclick="copyText('bc11')">Copy Script</button>
+                    </div>
+                </div>
+
+                <div class="card battle-card" data-type="Testing You">
+                    <div class="battle-header" onclick="toggleBattleCard(this)">
+                        <div class="battle-header-content">
+                            <span class="battle-type-tag">Testing You</span>
+                            <span class="battle-label">Situation</span>
+                            <p class="battle-situation">The Over-Sharer — they tell you something that surprises or concerns you</p>
+                        </div>
+                        <span class="battle-toggle-icon">+</span>
+                    </div>
+                    <div class="battle-body">
+                        <span class="battle-label">What's Happening</span>
+                        <p class="battle-happening">They're actually trusting you — this determines whether they keep opening up</p>
+                        <span class="battle-label">Your Move</span>
+                        <pre id="bc12">"Thank you for telling me that. Seriously — I'm glad you said something. I'm not going to freak out, I just want to understand it better. Tell me more about what happened."
+
+Then go slow. Ask one question. Don't pile on. The goal right now is not to solve the problem — it's to make sure they walk away thinking "I can tell my parent things." That's worth more than any single conversation.</pre>
+                        <button class="copy-btn" onclick="copyText('bc12')">Copy Script</button>
+                    </div>
+                </div>
+
+                <div class="card battle-card" data-type="Bargaining">
+                    <div class="battle-header" onclick="toggleBattleCard(this)">
+                        <div class="battle-header-content">
+                            <span class="battle-type-tag">Bargaining</span>
+                            <span class="battle-label">Situation</span>
+                            <p class="battle-situation">The Bargainer — "Fine, I'll only use it for brainstorming. Can we be done now?"</p>
+                        </div>
+                        <span class="battle-toggle-icon">+</span>
+                    </div>
+                    <div class="battle-body">
+                        <span class="battle-label">What's Happening</span>
+                        <p class="battle-happening">Offering a quick concession to close the conversation without having it</p>
+                        <span class="battle-label">Your Move</span>
+                        <pre id="bc13">"I appreciate that — and I actually believe you mean it. But I don't want a promise, I want us to actually figure this out together so you're not guessing at the rules. Five more minutes. What would feel fair to you?"</pre>
+                        <button class="copy-btn" onclick="copyText('bc13')">Copy Script</button>
+                    </div>
+                </div>
+
+                <div class="card battle-card" data-type="Defensiveness">
+                    <div class="battle-header" onclick="toggleBattleCard(this)">
+                        <div class="battle-header-content">
+                            <span class="battle-type-tag">Defensiveness</span>
+                            <span class="battle-label">Situation</span>
+                            <p class="battle-situation">The Catastrophizer — "So you're saying I can NEVER use AI?"</p>
+                        </div>
+                        <span class="battle-toggle-icon">+</span>
+                    </div>
+                    <div class="battle-body">
+                        <span class="battle-label">What's Happening</span>
+                        <p class="battle-happening">They've heard restriction where you said guidance — a common teen distortion</p>
+                        <span class="battle-label">Your Move</span>
+                        <pre id="bc14">"No — that's actually the opposite of what I'm saying. I'm not here to take anything away. AI is going to be part of your life and honestly most likely part of your career. I want you to use it. I just want to make sure you know how to use it in a way that actually makes you more capable, not less. That's it."</pre>
+                        <button class="copy-btn" onclick="copyText('bc14')">Copy Script</button>
+                    </div>
+                </div>
+
+            </div><!-- /battle-grid -->
+
+            <!-- Section B: Age-Appropriate Starters -->
+            <h2 class="section-heading" style="margin: 10px 0 6px;">Age-Appropriate Conversation Starters</h2>
+            <p class="sub-header" style="margin-bottom: 20px;">Pull a starter that matches your child's age and the situation you're navigating.</p>
+
+            <div class="card age-group-card">
+                <h3 class="age-group-title">👶 For Kids Under 11</h3>
+                <div class="age-category">
+                    <h4>School &amp; Homework</h4>
+                    <ul>
+                        <li>"I heard AI can help with math homework — have you ever tried asking it a question? What happened?"</li>
+                        <li>"Did you know some AI tools are like really patient teachers who ask you questions instead of just giving you answers? Want to see one?"</li>
+                    </ul>
+                </div>
+                <div class="age-category">
+                    <h4>Fun &amp; Creative</h4>
+                    <ul>
+                        <li>"What's the coolest thing you've seen AI make? A song? A picture? Show me!"</li>
+                        <li>"If you could have an AI help you make anything — a game, a story, anything — what would you make?"</li>
+                    </ul>
+                </div>
+                <div class="age-category">
+                    <h4>Safety &amp; Boundaries</h4>
+                    <ul>
+                        <li>"If a computer program ever said something weird or that made you feel funny, you'd tell me right? Even if you thought I might be upset?"</li>
+                        <li>"Let's make a rule together: what things do we want to keep just for humans — no AI allowed?"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card age-group-card">
+                <h3 class="age-group-title">🧑‍🎓 For Teens (12–18)</h3>
+                <div class="age-category">
+                    <h4>School &amp; Productivity</h4>
+                    <ul>
+                        <li>"When you use AI for homework, does it feel like it's actually helping you learn, or more like a shortcut to get done faster? I'm genuinely curious."</li>
+                        <li>"Have you ever gotten a better grade on something because of AI, and then realized you didn't actually understand the topic when it came up again?"</li>
+                        <li>"What would you do if a teacher accused you of cheating with AI on something you actually wrote yourself?"</li>
+                        <li>"You know how in math you learned how to do it by hand before you were allowed to use a calculator? I think about AI the same way. You should absolutely use it — but do you feel like you actually understand the stuff underneath it? Or does it ever feel like you're skipping that part?"</li>
+                    </ul>
+                </div>
+                <div class="age-category">
+                    <h4>Creative &amp; Entertainment</h4>
+                    <ul>
+                        <li>"What AI tools are you actually using for fun right now? I want to know what's actually interesting to you — not a lecture, I promise."</li>
+                        <li>"Do you ever feel like the content you get served (videos, music, whatever) is kind of... designed to keep you watching? Does that feel weird?"</li>
+                    </ul>
+                </div>
+                <div class="age-category">
+                    <h4>Emotional &amp; Companionship</h4>
+                    <ul>
+                        <li>"I heard that some kids talk to AI when they're stressed or need someone to talk to. Does that ever happen for you? What's that like?"</li>
+                        <li>"Has AI ever said something to you that felt off, or like it was pushing you in a direction that didn't feel right?"</li>
+                    </ul>
+                </div>
+                <div class="age-category">
+                    <h4>Autonomy &amp; Future</h4>
+                    <ul>
+                        <li>"Honestly — do you feel like you understand how these tools work well enough to be in control of them? Or does it ever feel the other way around?"</li>
+                        <li>"What do you think AI is going to change about the kind of work you want to do someday?"</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div><!-- /conversation -->
+
+        <!-- ===================== SCHOOL LIAISON ===================== -->
+        <div id="scripts" class="tab-content">
+            <h1>School Liaison</h1>
+            <p class="sub-header">Email templates and advocacy scripts for every school situation — from proactive check-ins to plagiarism disputes.</p>
+
+            <!-- How-to Banner -->
+            <div class="card how-to-banner">
+                <p class="how-to-title">📋 How to Use These Templates</p>
+                <div class="how-to-steps">
+                    <div class="how-to-step">
+                        <div class="how-to-step-num">1</div>
+                        <div>
+                            <strong>Fill in the brackets</strong>
+                            <p>Every [bracketed field] is a placeholder. Spend 2 minutes personalizing before you send — it makes a real difference.</p>
+                        </div>
+                    </div>
+                    <div class="how-to-step">
+                        <div class="how-to-step-num">2</div>
+                        <div>
+                            <strong>Send Template 1 now — don't wait</strong>
+                            <p>The proactive email sent at the start of the semester prevents 90% of future problems. Most situations never need to go past Template 2.</p>
+                        </div>
+                    </div>
+                    <div class="how-to-step">
+                        <div class="how-to-step-num">3</div>
+                        <div>
+                            <strong>Escalate in order</strong>
+                            <p>If an issue arises, use Templates 2 → 3 → 4 in sequence. Each one is calibrated for a specific level of urgency. Jump straight to 4 only as a last resort.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jump Buttons -->
+            <div class="es-jump-row">
+                <button class="es-jump-btn" onclick="document.getElementById('sl1').scrollIntoView({behavior:'smooth'})">1 · Proactive Inquiry</button>
+                <button class="es-jump-btn" onclick="document.getElementById('sl2').scrollIntoView({behavior:'smooth'})">2 · False Flag Rebuttal</button>
+                <button class="es-jump-btn" onclick="document.getElementById('sl3').scrollIntoView({behavior:'smooth'})">3 · IEP/504 Request</button>
+                <button class="es-jump-btn" onclick="document.getElementById('sl4').scrollIntoView({behavior:'smooth'})">4 · Admin Escalation</button>
+                <button class="es-jump-btn" onclick="document.getElementById('sl5').scrollIntoView({behavior:'smooth'})">5 · Tutor-to-Teacher Bridge</button>
+            </div>
+
+            <!-- Template 1 -->
+            <div class="card" id="sl1">
+                <span class="sl-template-num">Template 1 of 5</span>
+                <span class="sl-tag-proactive">Proactive — Send at Start of Semester</span>
+                <h2 class="section-heading" style="font-size:1.3rem; margin-bottom:6px;">Proactive AI Policy Inquiry</h2>
+                <span class="es-when">When to use: Before any issue arises. Send to each of your child's core teachers at the start of the year or semester.</span>
+                <div class="es-email-subject">Subject: Question About AI Usage Guidelines for [Student Name]'s Class</div>
+                <pre id="sl-t1">Dear [Teacher Name],
+
+I hope this email finds you well. As AI tools become more integrated into daily life, I want to make sure [Student Name] is using them appropriately for your class.
+
+I know many schools are still developing their policies around AI, and I want to support whatever approach you prefer. Could you help me understand:
+
+• Are there specific AI tools you encourage or discourage for homework?
+• How would you like students to document AI usage if they use it as a study tool?
+• Are there certain assignments where AI should not be used at all?
+
+My goal is to help [Student Name] use AI as a learning tool — like a tutor — rather than a shortcut. If you have any resources or guidelines you can share, I would appreciate it.
+
+Thank you for your time, and I look forward to partnering with you this year!
+
+Best regards,
+[Your Name]
+[Contact Information]</pre>
+                <button class="copy-btn" onclick="copyText('sl-t1')">Copy Email</button>
+            </div>
+
+            <!-- Template 2 -->
+            <div class="card" id="sl2">
+                <span class="sl-template-num">Template 2 of 5</span>
+                <span class="sl-tag-defensive">Defensive — AI Detector Flag</span>
+                <h2 class="section-heading" style="font-size:1.3rem; margin-bottom:6px;">The False Flag Rebuttal</h2>
+                <span class="es-when">When to use: Your child's work was flagged by an AI detector and you have documentation proving their process.</span>
+                <div class="es-email-subject">Subject: Re: [Assignment Name] — Process Documentation Attached</div>
+                <pre id="sl-t2">Dear [Teacher Name],
+
+Thank you for reaching out about [Student Name]'s [assignment name]. I appreciate you bringing this to my attention directly, and I want to work through this with you.
+
+[Student Name] did use AI tools while working on this assignment — but as a tutor, not as the writer. We've been teaching them to document their AI use as they go, and I have the following materials available:
+
+• Chat logs showing the AI asked [Student Name] questions rather than providing answers
+• Three draft versions showing how the work evolved over time
+• A completed AI Partnership Disclosure form explaining exactly what AI was used for
+
+I'd welcome the opportunity to review these together at your convenience — in person, by phone, or over email. My goal is simply to show you the thinking process behind the work.
+
+If [Student Name] needs to demonstrate their understanding in an additional way — a verbal explanation, a follow-up assignment, or anything else — we're completely open to that. We want you to feel confident in their work.
+
+Thank you for your patience and for being willing to look at this more closely.
+
+Best regards,
+[Your Name]
+[Contact Information]</pre>
+                <button class="copy-btn" onclick="copyText('sl-t2')">Copy Email</button>
+            </div>
+
+            <!-- Template 3 -->
+            <div class="card" id="sl3">
+                <span class="sl-template-num">Template 3 of 5</span>
+                <span class="sl-tag-accommodation">Accommodation — IEP / 504</span>
+                <h2 class="section-heading" style="font-size:1.3rem; margin-bottom:6px;">IEP/504 AI Accommodation Request</h2>
+                <span class="es-when">When to use: Your child has an IEP or 504 plan and you want AI tools added as an official accommodation at the next meeting.</span>
+                <div class="es-email-subject">Subject: Request to Add AI Assistive Technology to [Student Name]'s [IEP/504 Plan]</div>
+                <pre id="sl-t3">Dear [IEP Coordinator / Case Manager Name],
+
+I'd like to request that we add language to [Student Name]'s [IEP/504 Plan] at our next meeting to formally include AI assistive technology as an accommodation.
+
+As you know, [Student Name] has [briefly state disability], which impacts their ability to [specific challenge: organize thoughts, write fluently, access complex texts, etc.]. We've found that AI tools function similarly to accommodations already in place — like text-to-speech and graphic organizers — but provide more independence and efficiency.
+
+I'd like to propose the following accommodation language:
+
+"[Student Name] is permitted to use AI tools including ChatGPT, Google Gemini, Grammarly, and similar platforms for brainstorming, organizational support, grammar checking, and concept clarification to mitigate the impact of [specific disability]. All final work products must reflect [Student Name]'s original thinking and writing. [Student Name] will document AI use as part of their process when required by teachers."
+
+I'm happy to discuss this further and to share research on how other districts are implementing AI accommodations. Thank you for considering this request.
+
+Best regards,
+[Your Name]
+[Contact Information]</pre>
+                <button class="copy-btn" onclick="copyText('sl-t3')">Copy Email</button>
+            </div>
+
+            <!-- Template 4 -->
+            <div class="card" id="sl4">
+                <span class="sl-template-num">Template 4 of 5</span>
+                <span class="sl-tag-escalation">Escalation — Last Resort</span>
+                <h2 class="section-heading" style="font-size:1.3rem; margin-bottom:6px;">Admin Escalation</h2>
+                <span class="es-when">When to use: You've provided documentation (Template 2) and the teacher has been unreasonable. Involve administration only after exhausting direct options.</span>
+                <div class="es-email-subject">Subject: Request for Meeting Re: [Student Name] and AI Use Policy</div>
+                <pre id="sl-t4">Dear [Principal / Assistant Principal Name],
+
+I'm reaching out because I've hit an impasse with [Teacher Name] regarding [Student Name]'s [assignment name], and I'm hoping you can help us find a fair resolution.
+
+Background: [Student Name]'s work was flagged for AI use on [date]. I responded on [date] with process documentation — including chat logs, multiple drafts, and a completed AI Partnership Disclosure form — demonstrating that [Student Name] used AI as a learning tool, not as a replacement for their own thinking. [Teacher Name] has [describe the impasse — e.g., "declined to review the documentation" / "maintained the zero grade without discussion"].
+
+I'm not asking for special treatment — I'm asking for the same fair process I believe any student deserves: the opportunity to demonstrate their work through their documented process.
+
+I'd welcome a meeting with you, [Teacher Name], and [Student Name] to review the documentation together and find a resolution. I believe we can get there.
+
+Thank you for your time.
+
+Best regards,
+[Your Name]
+[Contact Information]</pre>
+                <button class="copy-btn" onclick="copyText('sl-t4')">Copy Email</button>
+            </div>
+
+            <!-- Template 5 -->
+            <div class="card" id="sl5">
+                <span class="sl-template-num">Template 5 of 5</span>
+                <span class="sl-tag-proactive">Proactive — Build Trust Early</span>
+                <h2 class="section-heading" style="font-size:1.3rem; margin-bottom:6px;">Tutor-to-Teacher Bridge</h2>
+                <span class="es-when">When to use: You want to proactively explain the Socratic Prompting system to a teacher before it comes up as an issue. Send early in the semester for any class with major writing or project-based assignments.</span>
+                <div class="es-email-subject">Subject: Sharing Our Home AI Learning Approach for [Student Name]</div>
+                <pre id="sl-t5">Dear [Teacher Name],
+
+I wanted to share something we've been doing at home that I think you'll find relevant to [Student Name]'s work in your class.
+
+We've been teaching [Student Name] to use AI in "Socratic Mode" — meaning instead of asking AI for answers, they ask it to ask them questions. For example, instead of typing "solve this equation," they type "I need help with this equation — don't solve it for me, ask me questions to guide me through the steps."
+
+The result is a conversation log that shows [Student Name]'s thinking process rather than just a final answer. We've been attaching these logs (along with a brief AI Partnership Disclosure form) to major assignments.
+
+I wanted to make you aware of this approach in case you see [Student Name]'s work and notice elements that reflect this process. I'm happy to share an example conversation log so you can see what it looks like in practice.
+
+Thank you for everything you do for [Student Name] this year.
+
+Best regards,
+[Your Name]
+[Contact Information]</pre>
+                <button class="copy-btn" onclick="copyText('sl-t5')">Copy Email</button>
+            </div>
+
+        </div><!-- /scripts -->
+
+        <!-- ===================== DISCLOSURE KIT ===================== -->
+        <div id="disclosure" class="tab-content">
+            <h1>Disclosure Kit</h1>
+            <p class="sub-header">Sample completed AI disclosure forms and step-by-step chat export guides.</p>
+            <div class="card"><p>Full content coming soon.</p></div>
+        </div>
+
+        <!-- ===================== CONSTITUTION ===================== -->
+        <div id="constitution" class="tab-content">
+            <h1>Constitution Builder</h1>
+            <div class="card"><p>Home agreements coming soon.</p></div>
+        </div>
+
+    </main>
+
+    <footer>
+        <div>&copy; 2026 AI Parenting Protocol</div>
+        <div class="footer-links">
+            <a href="#">Support</a>
+            <a href="#">Privacy</a>
+        </div>
+    </footer>
+
+    <script>
+        /* --------------------------------------------------
+           TAB NAVIGATION
+        -------------------------------------------------- */
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('nav ul li').forEach(el => el.classList.remove('active'));
+
+            const tab = document.getElementById(tabName);
+            if (tab) tab.classList.add('active');
+
+            const li = document.getElementById('li-' + tabName);
+            if (li) li.classList.add('active');
+        }
+
+        /* --------------------------------------------------
+           APP AUDIT SEARCH
+        -------------------------------------------------- */
+        function filterApps() {
+            const input = document.getElementById('appSearch').value.toLowerCase();
+            const rows  = document.querySelectorAll('#appTable tbody tr');
+            rows.forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(input) ? '' : 'none';
+            });
+        }
+
+        /* --------------------------------------------------
+           PROMPT LIBRARY SEARCH & FILTER
+        -------------------------------------------------- */
+        function filterPrompts() {
+            const input = document.getElementById('promptSearch').value.toLowerCase();
+            document.querySelectorAll('.prompt-card').forEach(card => {
+                card.style.display = card.innerText.toLowerCase().includes(input) ? '' : 'none';
+            });
+        }
+
+        function filterCategory(e, cat) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            document.querySelectorAll('.prompt-card').forEach(card => {
+                card.style.display = (cat === 'all' || card.getAttribute('data-cat') === cat) ? '' : 'none';
+            });
+        }
+
+        /* --------------------------------------------------
+           COPY BUTTON
+        -------------------------------------------------- */
+        function copyText(id) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const orig = btn.innerText;
+                btn.innerText = '✅ Copied!';
+                btn.style.background = '#40aa78';
+                btn.style.color = 'white';
+                setTimeout(() => {
+                    btn.innerText = orig;
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }, 2000);
+            });
+        }
+
+        /* --------------------------------------------------
+           PROMPT LIBRARY DATA & RENDER
+        -------------------------------------------------- */
+        const promptData = [
+            // TEST PREP
+            { id: 'pt1',  cat: 'Test Prep',   tag: 'Test Prep',          btn: 'Copy Prep Prompt', title: '🧠 SAT Reading Strategy',      text: `I am practicing for the SAT Reading. Provide a 300-word academic passage. Ask me 3 questions, but don't give the answers. Explain the 'Trap' logic (like 'Mostly Right' or 'Too Broad') for the wrong choices after I guess.` },
+            { id: 'pt2',  cat: 'Test Prep',   tag: 'Test Prep',          btn: 'Copy Prompt',      title: '⏱️ SAT Math Time-Hacker',       text: `Give me an SAT Algebra II problem. Once I solve it, show a 'Mental Math' shortcut to solve it in under 30s. Focus on eliminating distractor answers.` },
+            { id: 'pt3',  cat: 'Test Prep',   tag: 'Test Prep',          btn: 'Copy Prompt',      title: '📝 ACT Grammar Rules',          text: `Act as an ACT English tutor. Give me 5 sentences with subtle punctuation errors. Ask me to fix them. Explain the specific ACT rule for each one.` },
+            { id: 'pt4',  cat: 'Test Prep',   tag: 'Test Prep',          btn: 'Copy Prompt',      title: '📐 SAT Geometry Estimation',    text: `Give me an SAT 'Grid-In' geometry problem. If I get it wrong, show the 'Visual Estimation' trick to see why my answer was physically impossible.` },
+            { id: 'pt5',  cat: 'Test Prep',   tag: 'Test Prep',          btn: 'Copy Prompt',      title: '📖 SAT Vocab in Context',       text: `Give me 5 SAT words in a story about a futuristic city. Ask me to define them based ONLY on the context clues in the story.` },
+            { id: 'pt6',  cat: 'Test Prep',   tag: 'Test Prep',          btn: 'Copy Prompt',      title: '📊 ACT Science Data',           text: `Show results from two students with conflicting theories. Ask me to identify the specific variable they disagree on based on the charts.` },
+            { id: 'pt7',  cat: 'Test Prep',   tag: 'Test Prep',          btn: 'Copy Prompt',      title: '💡 Conciseness Rule',           text: `Give me a wordy, redundant paragraph. Ask me to rewrite it using the 'shortest grammatically correct' rule. Grade my edit.` },
+            // MATH
+            { id: 'pm1',  cat: 'Math',        tag: 'Math',               btn: 'Copy Prompt',      title: '📐 Calculus Visualizer',        text: `Explain [CONCEPT] as a 3D animation. What is moving? What is changing? Give a real-world car velocity example.` },
+            { id: 'pm2',  cat: 'Math',        tag: 'Math',               btn: 'Copy Prompt',      title: '✖️ Algebra Logic-Check',        text: `Work: [PASTE WORK]. Don't solve it. Scan for sign or PEMDAS errors. Tell me which line has the mistake.` },
+            { id: 'pm3',  cat: 'Math',        tag: 'Math',               btn: 'Copy Prompt',      title: '📊 Stats Metaphor',             text: `Explain Standard Deviation using basketball free-throws. Ask a 'What If' question to test my understanding.` },
+            { id: 'pm4',  cat: 'Math',        tag: 'Math',               btn: 'Copy Prompt',      title: '🏢 Proof Architect',            text: `Proof: [THEOREM]. List the 3 postulates I need as 'tools.' Ask me how to start the first statement.` },
+            { id: 'pm5',  cat: 'Math',        tag: 'Math',               btn: 'Copy Prompt',      title: '📉 Unit Circle Mnemonic',       text: `Teach me the 'Hand Trick' or a visual mnemonic to remember the Unit Circle without a giant table.` },
+            { id: 'pm6',  cat: 'Math',        tag: 'Math',               btn: 'Copy Prompt',      title: '🎒 Probability Coach',          text: `Explain the 'Law of Large Numbers' using coin flips. Ask me to predict 10 flips vs 10,000 flips.` },
+            { id: 'pm7',  cat: 'Math',        tag: 'Math',               btn: 'Copy Prompt',      title: '📝 Word Problem Decoder',       text: `Word Problem: [PASTE]. Translate English to Equation. Which words tell me the operations (+, -, *, /)?` },
+            // WRITING
+            { id: 'pw1',  cat: 'Writing',     tag: 'Writing',            btn: 'Copy Prompt',      title: '📜 Thesis Stress-Test',         text: `Thesis: [THESIS]. Act as a tough grader. Find two holes and ask questions to make it 'un-hackable.'` },
+            { id: 'pw2',  cat: 'Writing',     tag: 'Writing',            btn: 'Copy Prompt',      title: '🎭 Literary Detective',         text: `Symbolism in [BOOK]. Give me a riddle about a chapter that points to a recurring object.` },
+            { id: 'pw3',  cat: 'Writing',     tag: 'Writing',            btn: 'Copy Prompt',      title: '🖋️ Stronger Verbs',            text: `Suggest 3 'Stronger Verbs' and 2 'Academic Transitions' for [TEXT] without changing meaning.` },
+            { id: 'pw4',  cat: 'Writing',     tag: 'Writing',            btn: 'Copy Prompt',      title: '🕵️ Citation Sandwich',         text: `Quote: [QUOTE]. Show MLA format and an example of how to 'sandwich' it in my analysis.` },
+            { id: 'pw5',  cat: 'Writing',     tag: 'Writing',            btn: 'Copy Prompt',      title: '📖 Poetry Rhythms',             text: `Explain Iambic Pentameter using a song beat. Ask me to write one sentence in that rhythm.` },
+            { id: 'pw6',  cat: 'Writing',     tag: 'Writing',            btn: 'Copy Prompt',      title: '🎓 College Essay Deep-Dive',    text: `I have 3 life stories: [LIST]. Which is most unique? Ask 3 deep questions to find the 'heart.'` },
+            { id: 'pw7',  cat: 'Writing',     tag: 'Writing',            btn: 'Copy Prompt',      title: '🔍 Passive Voice Police',       text: `Scan [TEXT] for passive voice. Explain why active voice is better. Ask me to rewrite one.` },
+            // LANGUAGES
+            { id: 'pl1',  cat: 'Languages',   tag: 'Languages',          btn: 'Copy Prompt',      title: '🇪🇸 Spanish Immersion',        text: `Act as a native Spanish speaker. Put corrections in brackets [ ] but keep the convo going.` },
+            { id: 'pl2',  cat: 'Languages',   tag: 'Languages',          btn: 'Copy Prompt',      title: '🇫🇷 French Verb Coach',         text: `Passé Composé vs Imparfait. Give a story in English. Ask me to translate 3 key sentences.` },
+            { id: 'pl3',  cat: 'Languages',   tag: 'Languages',          btn: 'Copy Prompt',      title: '🉐 Kanji Mnemonics',            text: `List: [WORDS]. Create funny stories for each word linking its sound to meaning. Quiz me.` },
+            { id: 'pl4',  cat: 'Languages',   tag: 'Languages',          btn: 'Copy Prompt',      title: '🏛️ Latin Roots',               text: `Word: [WORD]. Break down roots and prefixes. Show 3 other English words sharing these roots.` },
+            { id: 'pl5',  cat: 'Languages',   tag: 'Languages',          btn: 'Copy Prompt',      title: '🗣️ Phonetic Guide',            text: `Phrase: [PHRASE]. Write phonetic spelling (Bon-zhoor) and tell me where to put emphasis.` },
+            { id: 'pl6',  cat: 'Languages',   tag: 'Languages',          btn: 'Copy Prompt',      title: '💃 Slang & Context',            text: `Teach 3 slang words teens actually use in [COUNTRY]. Explain the social context for each.` },
+            { id: 'pl7',  cat: 'Languages',   tag: 'Languages',          btn: 'Copy Prompt',      title: '🔄 Natural Speaker Check',      text: `I wrote: [TEXT]. Would a native speaker say this? Give a more natural version + explanation.` },
+            // STEM
+            { id: 'ps1',  cat: 'STEM',        tag: 'STEM',               btn: 'Copy Prompt',      title: '🧪 Lab Variables',              text: `List variables for [TOPIC]. Ask what potential 'Experimental Errors' I should watch out for.` },
+            { id: 'ps2',  cat: 'STEM',        tag: 'STEM',               btn: 'Copy Prompt',      title: '🧬 Mitosis Factory',            text: `Explain Mitosis as a high-tech factory. Who are the workers? Ask what if a machine breaks.` },
+            { id: 'ps3',  cat: 'STEM',        tag: 'STEM',               btn: 'Copy Prompt',      title: '💻 Python Debugger',            text: `Error: [ERROR]. Don't fix it. Explain in Human English and ask which line causes the leak.` },
+            { id: 'ps4',  cat: 'STEM',        tag: 'STEM',               btn: 'Copy Prompt',      title: '⚛️ Physics Word Problems',      text: `Physics: [FORCE]. List 'Givens' I should find in text and ask which formula fits best.` },
+            { id: 'ps5',  cat: 'STEM',        tag: 'STEM',               btn: 'Copy Prompt',      title: '🌋 Geology Time-Travel',        text: `Act as geologist 100M years ago. Describe tectonic plate movements beneath us dramatically.` },
+            { id: 'ps6',  cat: 'STEM',        tag: 'STEM',               btn: 'Copy Prompt',      title: '⚗️ Chem Equation Balancer',     text: `Equation: [PASTE]. Tell me which element to balance FIRST and why. Let me try the next step.` },
+            { id: 'ps7',  cat: 'STEM',        tag: 'STEM',               btn: 'Copy Prompt',      title: '🌟 Astronomy Scale',            text: `Explain distance using a football field metaphor. Ask how long it takes to 'walk' there.` },
+            // HUMANITIES
+            { id: 'ph1',  cat: 'Humanities',  tag: 'History',            btn: 'Copy Prompt',      title: '🏛️ The History Interrogator',  text: `I am studying [EVENT/ERA]. Act as a skeptical historian. Give me two different 'perspectives' on why this event happened (e.g., economic vs. social). Ask me which one I find more convincing based on my textbook.` },
+            { id: 'ph2',  cat: 'Humanities',  tag: 'History',            btn: 'Copy Prompt',      title: '📜 Primary Source Spy',         text: `Here is a snippet from a historical document: [TEXT]. Don't summarize it. Tell me what 'unspoken' biases or goals the author might have had. What was the 'vibe' of the country when this was written?` },
+            { id: 'ph3',  cat: 'Humanities',  tag: 'History',            btn: 'Copy Prompt',      title: '⚖️ Ethics Debate Coach',        text: `We are debating [TOPIC, e.g., The Industrial Revolution]. Give me 3 strong arguments for the 'Pro' side and 3 for the 'Con' side. Then, ask me to pick one and 'rebut' it using a specific fact I learned in class.` },
+            { id: 'ph4',  cat: 'Humanities',  tag: 'History',            btn: 'Copy Prompt',      title: '🌍 Geography Impact-Check',     text: `How did the physical geography (mountains, rivers, climate) of [LOCATION] affect the outcome of [WAR/EVENT]? Explain it like a strategic video game map analysis.` },
+            { id: 'ph5',  cat: 'Humanities',  tag: 'History',            btn: 'Copy Prompt',      title: '🕰️ The Timeline Connector',    text: `I am studying [EVENT A]. What was happening at the exact same time in [DIFFERENT COUNTRY]? Connect the two events for me so I can see the 'Global Picture.'` },
+            // LIFE SKILLS
+            { id: 'plf1', cat: 'Life Skills', tag: 'Strategy & Success', btn: 'Copy Prompt',      title: '📅 Project Slicer',             text: `[Insert project detail] is due in 2 weeks. Break it into 10 daily 20-min tasks. Make the first 3 tasks extremely easy.` },
+            { id: 'plf2', cat: 'Life Skills', tag: 'Strategy & Success', btn: 'Copy Prompt',      title: '🤝 Mature Negotiator',          text: `I have a Request. I want to talk to my parents about [INSERT REQUEST]. Roleplay parents. Give feedback on sounding responsible vs whiny.` },
+            { id: 'plf3', cat: 'Life Skills', tag: 'Strategy & Success', btn: 'Copy Prompt',      title: '🧠 The BS Detector',            text: `Give 5 facts, but 1 is a LIE. I will find it using Google. Don't tell me which is which.` },
+            { id: 'plf4', cat: 'Life Skills', tag: 'Strategy & Success', btn: 'Copy Hack',        title: '🚀 The 2-Hour Deep Work Sprint', text: `I have a 2-hour study block for [SUBJECT]. Create a 'Deep Work' schedule using 25-minute sprints and 5-minute 'Brain Resets.' Prioritize the hardest, most 'scary' task first while my energy is high. Suggest 3 specific 'resets' that aren't scrolling on my phone.` },
+            { id: 'plf5', cat: 'Life Skills', tag: 'Strategy & Success', btn: 'Copy Prompt',      title: '🎒 Sunday Night Audit',         text: `Act as a coach. Give a 5-step checklist to ensure backpack and gear are ready for Monday.` },
+            { id: 'plf6', cat: 'Life Skills', tag: 'Strategy & Success', btn: 'Copy Prompt',      title: '📧 Teacher Liaison',            text: `Email [TEACHER] about [ISSUE]. Write a professional subject line and opening. Be respectful.` },
+            { id: 'plf7', cat: 'Life Skills', tag: 'Strategy & Success', btn: 'Copy Prompt',      title: '🍳 College Cooking',            text: `I have [INSERT INGREDIENTS]. Give a healthy 5-min microwave recipe. Explain one cooking skill.` },
+            { id: 'plf8', cat: 'Life Skills', tag: 'Strategy & Success', btn: 'Copy Hack',        title: '👥 Group Project Diplomat',     text: `I'm in a group project and [MEMBER NAME] isn't doing their work. Help me draft a text that is firm and respectful, asking them for their part by tomorrow without sounding like a jerk.` },
+            { id: 'plf9', cat: 'Life Skills', tag: 'Strategy & Success', btn: 'Copy Hack',        title: '💬 Peer Feedback Filter',       text: `My classmate gave me this feedback: [PASTE FEEDBACK]. It feels a bit mean/confusing. Help me translate this into 3 'Action Steps' I can actually use to improve my work.` },
+            { id: 'plf10',cat: 'Life Skills', tag: 'Strategy & Success', btn: 'Copy Hack',        title: '🎤 Presentation Stage-Fright',  text: `I have to give a 5-minute presentation on [TOPIC]. Give me a 3-step 'Warm Up' routine to settle my nerves, and suggest 2 places in my speech where I should pause for effect.` }
+        ];
+
+        function renderPrompts(data = promptData) {
+            const grid = document.getElementById('promptGrid');
+            if (!grid) return;
+            grid.innerHTML = data.map(p => `
+                <div class="card prompt-card" data-cat="${p.cat}">
+                    <div class="prompt-header">
+                        <h3>${p.title}</h3>
+                        <span class="category-tag">${p.tag}</span>
+                    </div>
+                    <pre id="${p.id}">${p.text}</pre>
+                    <button class="copy-btn" onclick="copyText('${p.id}')">${p.btn}</button>
+                </div>`).join('');
+        }
+
+        /* --------------------------------------------------
+           APP AUDIT DATA & RENDER
+        -------------------------------------------------- */
+        const appAuditData = [
+            { rating: '🟢', name: 'Khanmigo',         dna: '<b>Non-Profit Tutor.</b> Socratic design by Khan Academy.',            pricing: '$4/mo',       why: "The 'Patient Coach.' Hard-coded to never give answers; only provides hints.",                                             action: "<b>Safe for solo use.</b> The gold standard. No active monitoring required.",                              status: 'green',  url: 'https://www.khanacademy.org/khanmigo' },
+            { rating: '🟢', name: 'MagicSchool',       dna: '<b>Teacher-Built.</b> 50+ tools for responsible drafting.',            pricing: 'Free',        why: "The 'Curriculum Expert.' Tools that help students brainstorm without 'doing' the work.",                             action: "<b>Safe &amp; Encouraged.</b> Ask: 'Which Magic Tool did you use today?'",                                 status: 'green',  url: 'https://www.magicschool.ai' },
+            { rating: '🟢', name: 'SchoolAI',          dna: "<b>Secure 'Spaces.'</b> Private environments with adult oversight.",   pricing: 'Free',        why: "The 'Mission Control.' Built for safety with instant adult alerts for any red flags.",                               action: "<b>Ask for a 'Space Code.'</b> Review logs once a week.",                                                   status: 'green',  url: 'https://schoolai.com' },
+            { rating: '🟢', name: 'Brisk Boost',       dna: '<b>Writing Witness.</b> Tracks real-time writing inside Google Docs.', pricing: 'Free',        why: "The 'Witness.' Replays the actual writing process to ensure original work.",                                          action: "<b>The 'Inspect' Tool.</b> Use to 'replay' the essay's history to prove human-written.",                   status: 'green',  url: 'https://www.briskteaching.com' },
+            { rating: '🟢', name: 'NotebookLM',        dna: "<b>Study Partner.</b> Google tool that only 'knows' what you upload.", pricing: 'Free',        why: "The 'Safe Room.' Only answers based on provided PDFs. Zero web 'cheating' risk.",                                    action: '<b>Upload Syllabus.</b> Use it to generate study guides or podcasts from student notes.',                  status: 'green',  url: 'https://notebooklm.google.com' },
+            { rating: '🟢', name: 'WolframAlpha',      dna: '<b>Math Engine.</b> Computational engine (not a chatbot).',            pricing: 'Free',        why: "The 'Actual Expert.' Calculates math. Perfect for Physics/Calculus.",                                                 action: "<b>Check Step-by-Step.</b> Use to verify math homework logic when AI 'hallucinates.'",                     status: 'green',  url: 'https://www.wolframalpha.com' },
+            { rating: '🟢', name: 'Hello History',     dna: '<b>Humanities Niche.</b> Chat with factual historical figures.',       pricing: '$3.99/mo',    why: "The 'Historian.' Immersive chats with figures like Lincoln. Great for perspective.",                                 action: "<b>Discussion Starter.</b> Ask: 'What did [Figure] tell you about their biggest mistake?'",               status: 'green',  url: 'https://hellohistory.ai' },
+            { rating: '🟢', name: 'Gemini (Edu)',      dna: '<b>Google Ecosystem.</b> Enterprise safety for student accounts.',     pricing: 'Free for 1yr',why: "The 'Fact Checker.' Uses 'Cite-Source' logic to verify claims. Data is NOT used to train.",                          action: "<b>The 'G' Button.</b> Click 'G' icon once a week to verify AI claims together.",                          status: 'green',  url: 'https://gemini.google.com' },
+            { rating: '🟡', name: 'Gemini (Personal)', dna: '<b>Consumer AI.</b> Tied to a personal Gmail account.',                pricing: 'Free',        why: "The 'Data Harvester.' Personal data may be used to train models. Fewer guardrails.",                                 action: '<b>Switch to Edu.</b> Ensure they use their school account to protect privacy.',                           status: 'yellow', url: 'https://gemini.google.com' },
+            { rating: '🟡', name: 'Grammarly',         dna: "<b>Writing Assistant.</b> Industry standard grammar/tone tool.",       pricing: 'Free',        why: "The 'Polisher.' Excellent grammar, but 'AI Rewrite' can trigger AI detectors.",                                      action: "<b>Disable 'AI Rewrite.'</b> Use for grammar/spelling only, not whole paragraphs.",                       status: 'yellow', url: 'https://www.grammarly.com' },
+            { rating: '🟡', name: 'ChatGPT',           dna: '<b>General Purpose.</b> The pioneer model. High capability.',          pricing: '$8/mo',       why: "The 'Easy Button.' High shortcut risk. Powerful, but requires high maturity.",                                         action: '<b>The 50/50 Rule.</b> Outlines only; final prose in a separate document.',                                status: 'yellow', url: 'https://chatgpt.com' },
+            { rating: '🟡', name: 'Claude',            dna: "<b>Nuanced Writer.</b> Anthropic's ethics-first, human model.",        pricing: 'Free',        why: "The 'Human Mimic.' Best style, but 'Artifacts' can build whole papers in seconds.",                                  action: "<b>Spot Check 'Artifacts.'</b> See 'generated' vs. 'edited' text logs.",                                  status: 'yellow', url: 'https://claude.ai' },
+            { rating: '🟡', name: 'Perplexity',        dna: '<b>Research Engine.</b> Search replacement for students.',             pricing: 'Free',        why: "The 'Answer Engine.' Summarizes accurately but bypasses the need to read sources.",                                  action: "<b>The '3-Source' Rule.</b> Ask the student to open/summarize 3 cited sources.",                          status: 'yellow', url: 'https://www.perplexity.ai' },
+            { rating: '🔴', name: 'Wizz',              dna: "<b>'Stranger' Finder.</b> Swiping for 'AI friends.'",                  pricing: 'Free',        why: "The 'Stranger Danger.' Marketed as friend finder; spot for online grooming.",                                         action: '<b>Strict Delete.</b> Major safety liability. Immediate removal recommended.',                             status: 'red',    url: '' },
+            { rating: '🔴', name: 'Character.AI',      dna: '<b>Social AI.</b> Emotional mimicry and roleplay.',                    pricing: 'Free',        why: "The 'Capture Bot.' Emotional mimicry leads to addiction and social withdrawal.",                                      action: "<b>Check Usage Time.</b> If 2+ hours daily, it's replacing real social growth.",                          status: 'red',    url: '' },
+            { rating: '🔴', name: 'Snapchat AI',       dna: '<b>Social Add-on.</b> Built-in companion in social feed.',             pricing: 'Free',        why: "The 'Hidden Influence.' Inconsistent safety and high data harvesting inside social app.",                             action: "<b>Enable 'Family Center.'</b> Monitor who the AI is 'chatting' with.",                                    status: 'red',    url: '' },
+            { rating: '🔴', name: 'Locket Widget',     dna: '<b>Live Home Screen.</b> Sends photos to home screens.',               pricing: 'Free',        why: "The 'Anxiety Loop.' AI filters and pressure create digital anxiety in teens.",                                         action: '<b>Set Boundaries.</b> Ensure use is limited to verified real-life friends.',                              status: 'red',    url: '' },
+            { rating: '🔴', name: 'Poly.AI / Talkie',  dna: '<b>Unfiltered.</b> Marketed as unfiltered roleplay.',                  pricing: 'Freemium',    why: "The 'Liability.' Zero pedagogy; frequently contains age-inappropriate content.",                                      action: "<b>Strict 'No.'</b> Delete immediately.",                                                                  status: 'red',    url: '' }
+        ];
+
+        function renderAppAudit(data = appAuditData) {
+            const container = document.getElementById('appAuditContainer');
+            if (!container) return;
+
+            let html = `
+                <table class="audit-table" id="appTable">
+                    <thead>
+                        <tr>
+                            <th>Rating</th>
+                            <th>App Name</th>
+                            <th>Product DNA</th>
+                            <th>2026 Pricing</th>
+                            <th>The "Why" (Guru Insight)</th>
+                            <th>Parent Action Step</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
+            data.forEach(app => {
+                const nameCell = app.url
+                    ? `<a href="${app.url}" target="_blank" class="app-link">${app.name}</a>`
+                    : `<span class="fw-bold text-navy">${app.name}</span>`;
+
+                html += `
+                        <tr>
+                            <td>
+                                <span class="audit-rating-emoji">${app.rating}</span>
+                                <span class="audit-rating-label">${app.status}</span>
+                            </td>
+                            <td>${nameCell}</td>
+                            <td>${app.dna}</td>
+                            <td class="fw-bold">${app.pricing}</td>
+                            <td>${app.why}</td>
+                            <td class="text-navy">${app.action}</td>
+                        </tr>`;
+            });
+
+            html += `</tbody></table>`;
+            container.innerHTML = html;
+        }
+
+        renderAppAudit();
+        renderPrompts();
+
+        /* --------------------------------------------------
+           BATTLE CARD FILTER
+        -------------------------------------------------- */
+        function filterBattleCards(e, type) {
+            document.querySelectorAll('#conversation .filter-btn').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            document.querySelectorAll('.battle-card').forEach(card => {
+                card.style.display = (type === 'all' || card.getAttribute('data-type') === type) ? '' : 'none';
+            });
+        }
+
+        /* --------------------------------------------------
+           BATTLE CARD COLLAPSE / EXPAND
+        -------------------------------------------------- */
+        function toggleBattleCard(header) {
+            const card = header.closest('.battle-card');
+            const icon = header.querySelector('.battle-toggle-icon');
+            card.classList.toggle('expanded');
+            icon.textContent = card.classList.contains('expanded') ? '×' : '+';
+        }
+
+        /* --------------------------------------------------
+           PRINT BATTLE CARDS
+        -------------------------------------------------- */
+        function printBattleCards() {
+            const cards = document.querySelectorAll('.battle-card');
+            let rows = '';
+            cards.forEach((card, i) => {
+                const situation = card.querySelector('.battle-situation')?.innerText || '';
+                const happening = card.querySelector('.battle-happening')?.innerText || '';
+                const script    = card.querySelector('pre')?.innerText || '';
+                const type      = card.getAttribute('data-type') || '';
+                rows += `<div class="bc">
+                    <div class="bc-top">
+                        <span class="bc-num">${i + 1}</span>
+                        <div>
+                            <span class="bc-tag">${type}</span>
+                            <p class="bc-sit">${situation}</p>
+                        </div>
+                    </div>
+                    <p class="lbl">What's Happening</p><p class="hap">${happening}</p>
+                    <p class="lbl">Your Move</p>
+                    <div class="scr">${script.replace(/\n/g,'<br>')}</div>
+                </div>`;
+            });
+            const html = `<!DOCTYPE html><html><head><title>Battle Cards — AI Parenting Protocol</title>
+            <style>
+                *{box-sizing:border-box;margin:0;padding:0}
+                body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;padding:20px;color:#334155;font-size:12px}
+                h1{font-size:17px;color:#072a51;margin-bottom:3px}
+                .sub{color:#64748b;margin-bottom:16px;font-size:11px}
+                .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+                .bc{border:1px solid #e2e8f0;border-radius:7px;padding:12px;page-break-inside:avoid}
+                .bc-top{display:flex;gap:9px;align-items:flex-start;margin-bottom:7px}
+                .bc-num{width:20px;height:20px;border-radius:50%;background:#072a51;color:#fff;font-weight:800;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+                .bc-tag{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;background:#eff6ff;color:#1e40af;padding:1px 6px;border-radius:20px;display:inline-block;margin-bottom:3px}
+                .bc-sit{font-weight:700;color:#072a51;font-size:11px}
+                .lbl{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin:6px 0 2px}
+                .hap{font-size:10px;color:#64748b;font-style:italic}
+                .scr{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:5px;padding:7px;font-size:10px;color:#475569;line-height:1.5}
+                @media print{body{padding:10px}}
+            </style></head><body>
+            <h1>Battle Cards — AI Parenting Protocol</h1>
+            <p class="sub">Scripts for when the conversation goes sideways. Say these in your own words — they don't need to be verbatim.</p>
+            <div class="grid">${rows}</div>
+            <script>window.onload=function(){window.print()}<\/script>
+            </body></html>`;
+            const w = window.open('', '_blank');
+            w.document.write(html);
+            w.document.close();
+        }
+    </script>
+
+</body>
+</html>
