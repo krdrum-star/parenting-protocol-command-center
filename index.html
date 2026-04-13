@@ -134,58 +134,7 @@
             color: white;
             box-shadow: 0 4px 12px rgba(49, 145, 183, 0.3);
         }
-/* ==========================================================
-   MOBILE OPTIMIZATION (COMBINED)
-   ========================================================== */
-@media (max-width: 900px) {
-    aside {
-        width: 100%;
-        height: auto;
-        position: relative;
-        padding: 20px;
-        border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
 
-    nav ul {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-        margin-top: 10px;
-    }
-
-    nav li {
-        padding: 8px 12px;
-        font-size: 0.8rem;
-        margin-bottom: 0;
-    }
-
-    main {
-        margin-left: 0;
-        padding: 20px;
-        padding-bottom: 100px;
-    }
-
-    footer {
-        width: 100%;
-        padding: 15px 20px;
-        position: relative;
-    }
-
-    .home-hero-logo {
-        margin: 0 auto;
-        max-width: 280px;
-    }
-
-    .how-to-steps {
-        flex-direction: column;
-    }
-}
-
-/* ==========================================================
-   4. MAIN LAYOUT
-   ========================================================== */
         /* ==========================================================
            4. MAIN LAYOUT
            ========================================================== */
@@ -579,8 +528,8 @@
         .ref-table tr:last-child td { border-bottom: none; }
         .ref-table-intro { color: #64748b; font-size: 0.92rem; margin-bottom: 6px; }
         .ref-table-footer { color: #64748b; font-size: 0.88rem; margin-top: 14px; line-height: 1.6; }
-        .home-hero-banner { margin-bottom: 16px; padding-bottom: 4px; border-bottom: 2px solid #e2e8f0; overflow: hidden; }
-        .home-hero-logo { max-width: 380px; width: 100%; height: auto; display: block; margin: -75px 0; }
+        .home-hero-banner { margin-bottom: 8px; padding-bottom: 4px; border-bottom: 2px solid #e2e8f0; overflow: hidden; }
+        .home-hero-logo { max-width: 320px; width: 100%; height: auto; display: block; margin: -100px 0; }
 
         /* ==========================================================
            13. CONVERSATION GUIDE TAB
@@ -712,12 +661,194 @@
         .sl-tag-accommodation{ font-size: 0.62rem; font-weight: 800; text-transform: uppercase; background: #dbeafe; color: #1e40af; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
         .sl-tag-escalation   { font-size: 0.62rem; font-weight: 800; text-transform: uppercase; background: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
         .sl-template-num     { font-size: 0.72rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; display: block; }
+
+        /* ==========================================================
+           16. DISCLOSURE KIT TAB
+           ========================================================== */
+        .disclosure-form-header { background: linear-gradient(135deg, var(--primary-navy) 0%, #0d3a6e 100%); border-radius: 8px 8px 0 0; padding: 16px 20px; margin: 0 0 20px; }
+        .disclosure-form-header h3 { color: white; font-size: 1rem; margin-bottom: 10px; }
+        .disclosure-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 16px; }
+        .disclosure-meta-row { font-size: 0.81rem; }
+        .disclosure-meta-label { color: rgba(255,255,255,0.55); }
+        .disclosure-meta-value { color: white; font-weight: 600; }
+        .disclosure-num { font-size: 0.67rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent-blue); display: block; margin: 14px 0 3px; }
+        .disclosure-section-title { font-size: 0.92rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 6px; }
+        .disclosure-section-body { font-size: 0.87rem; color: #475569; line-height: 1.65; padding-bottom: 14px; border-bottom: 1px solid #f1f5f9; }
+        .disclosure-section-body.last { border-bottom: none; padding-bottom: 0; }
+        .disclosure-sig { margin-top: 18px; padding-top: 14px; border-top: 2px solid #e2e8f0; font-size: 0.83rem; color: #64748b; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .disclosure-sig strong { color: var(--primary-navy); }
+        .export-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 20px; }
+        .export-platform-tag { font-size: 0.62rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 8px; }
+        .export-steps { list-style: none; padding: 0; margin: 10px 0; counter-reset: estep; display: flex; flex-direction: column; gap: 7px; }
+        .export-steps li { display: flex; gap: 10px; align-items: flex-start; font-size: 0.86rem; color: #475569; line-height: 1.5; counter-increment: estep; }
+        .export-steps li::before { content: counter(estep); min-width: 20px; height: 20px; background: var(--accent-blue); color: white; border-radius: 50%; font-size: 0.68rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+        .export-tip { font-size: 0.81rem; color: #334155; background: #f0fdf4; border-radius: 6px; padding: 8px 12px; margin-top: 10px; border-left: 3px solid var(--brand-green); }
+        .screenshot-list { list-style: none; padding: 0; margin-top: 8px; display: flex; flex-direction: column; gap: 5px; }
+        .screenshot-list li { font-size: 0.84rem; color: #475569; display: flex; gap: 8px; line-height: 1.5; }
+
+        /* ==========================================================
+           17. CONSTITUTION BUILDER TAB
+           ========================================================== */
+        .constitution-doc { border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; margin-bottom: 25px; }
+        .constitution-doc-header { background: linear-gradient(135deg, var(--primary-navy) 0%, #0d3a6e 100%); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+        .constitution-doc-header h3 { color: white; font-size: 1rem; margin: 0; }
+        .constitution-section-block { padding: 18px 24px; border-bottom: 1px solid #f1f5f9; }
+        .constitution-section-block:last-child { border-bottom: none; }
+        .cs-label { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent-blue); display: block; margin-bottom: 4px; }
+        .cs-title { font-size: 0.98rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 12px; }
+        .cs-checkbox-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+        .cs-checkbox-list li { display: flex; gap: 10px; align-items: flex-start; font-size: 0.87rem; color: #475569; line-height: 1.5; }
+        .cs-check { width: 15px; height: 15px; border: 2px solid #94a3b8; border-radius: 3px; flex-shrink: 0; margin-top: 2px; cursor: pointer; accent-color: var(--accent-blue); }
+        .cs-prose { font-size: 0.87rem; color: #475569; line-height: 1.7; }
+        .cs-prose strong { color: var(--primary-navy); display: block; margin: 10px 0 3px; }
+        .cs-prose strong:first-child { margin-top: 0; }
+        .cs-zones-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 8px; }
+        .cs-zones-table th { background: #f8fafc; padding: 8px 12px; text-align: left; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; font-weight: 800; border-bottom: 2px solid #e2e8f0; }
+        .cs-zones-table td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; vertical-align: top; }
+        .cs-zones-table td:first-child { font-weight: 600; color: var(--primary-navy); width: 36%; }
+        .cs-zones-table td:last-child { color: #94a3b8; font-style: italic; font-size: 0.8rem; }
+        .cs-zones-table tr:last-child td { border-bottom: none; }
+        .cs-sig-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-top: 16px; }
+        .cs-sig-line { border-bottom: 2px solid #334155; height: 28px; margin-bottom: 4px; }
+        .cs-sig-label { font-size: 0.72rem; color: #94a3b8; }
+        .clause-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 20px; margin-bottom: 25px; }
+        .clause-card { border-radius: 12px; padding: 20px; }
+        .clause-elem   { background: #f0fdf4; border: 1px solid #bbf7d0; }
+        .clause-middle { background: #eff6ff; border: 1px solid #bfdbfe; }
+        .clause-high   { background: #fdf4ff; border: 1px solid #e9d5ff; }
+        .clause-age-badge { font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; display: block; margin-bottom: 12px; }
+        .clause-elem   .clause-age-badge { color: #166534; }
+        .clause-middle .clause-age-badge { color: #1e40af; }
+        .clause-high   .clause-age-badge { color: #6b21a8; }
+        .clause-type-label { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; display: block; margin: 12px 0 6px; }
+        .clause-card ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+        .clause-card ul li { font-size: 0.83rem; color: #334155; line-height: 1.5; padding-left: 12px; position: relative; }
+        .clause-card ul li::before { content: '›'; position: absolute; left: 0; color: #94a3b8; font-weight: 700; }
+        .resolution-steps { display: flex; flex-direction: column; gap: 18px; }
+        .resolution-step { display: flex; gap: 16px; align-items: flex-start; }
+        .resolution-num { width: 32px; height: 32px; border-radius: 50%; background: var(--primary-navy); color: white; font-weight: 800; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+        .resolution-content strong { display: block; color: var(--primary-navy); margin-bottom: 4px; font-size: 0.95rem; }
+        .resolution-content p { color: #64748b; font-size: 0.87rem; line-height: 1.6; margin: 0; }
+        .ritual-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .ritual-card { border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; background: white; }
+        .ritual-icon { font-size: 1.8rem; margin-bottom: 8px; display: block; }
+        .ritual-title { font-size: 0.98rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 3px; }
+        .ritual-time { font-size: 0.72rem; color: var(--accent-blue); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; display: block; }
+        .ritual-label { font-size: 0.62rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; display: block; margin-bottom: 3px; margin-top: 10px; }
+        .ritual-label:first-of-type { margin-top: 0; }
+        .ritual-why { font-size: 0.83rem; color: #475569; line-height: 1.55; }
+        .ritual-how { font-size: 0.82rem; color: #64748b; line-height: 1.55; background: #f8fafc; border-radius: 6px; padding: 9px; border-left: 3px solid var(--brand-green); }
+
+        /* ==========================================================
+           18. MOBILE RESPONSIVE
+           ========================================================== */
+        .hamburger-btn { display: none; position: fixed; top: 14px; left: 14px; z-index: 300; background: var(--primary-navy); color: white; border: none; border-radius: 8px; padding: 10px 13px; cursor: pointer; font-size: 1.1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.25); line-height: 1; }
+        .mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 199; }
+        .mobile-overlay.active { display: block; }
+
+        @media (max-width: 768px) {
+            .hamburger-btn { display: flex; }
+
+            aside { transform: translateX(-100%); transition: transform 0.3s ease; z-index: 200; }
+            aside.mobile-open { transform: translateX(0); }
+
+            main { margin-left: 0 !important; padding: 68px 18px 100px; }
+
+            footer { width: 100%; padding: 12px 18px; flex-direction: column; gap: 6px; text-align: center; }
+            .footer-links { display: flex; justify-content: center; }
+            .footer-links a { margin-left: 10px; }
+
+            h1 { font-size: 1.5rem; }
+            .section-heading { font-size: 1.3rem; }
+
+            .how-to-steps { flex-direction: column; gap: 14px; }
+
+            .feature-grid,
+            .battle-grid,
+            .es-grid,
+            .export-grid,
+            .clause-grid,
+            .ritual-grid,
+            .prompt-grid { grid-template-columns: 1fr; }
+
+            .home-hero-logo { max-width: 240px; margin: -80px 0; }
+
+            .controls-row { flex-direction: column; align-items: flex-start; }
+            .controls-row > div { flex-wrap: wrap; }
+
+            .audit-table,
+            .cs-zones-table,
+            .ref-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+            .cs-sig-grid { grid-template-columns: 1fr; gap: 16px; }
+
+            .disclosure-meta-grid { grid-template-columns: 1fr; }
+            .disclosure-sig { flex-direction: column; align-items: flex-start; }
+
+            .nick-quote blockquote { font-size: 0.93rem; }
+
+            .es-jump-row { gap: 8px; }
+            .es-jump-btn { font-size: 0.8rem; padding: 7px 14px; }
+
+            .constitution-doc-header { flex-direction: column; align-items: flex-start; }
+
+            .how-to-step-num { width: 24px; height: 24px; font-size: 0.75rem; }
+
+            pre { font-size: 0.82rem; }
+        }
+
+        /* ==========================================================
+           19. TOAST NOTIFICATION
+           ========================================================== */
+        .toast {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #1e293b;
+            color: white;
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-size: 0.92rem;
+            font-weight: 500;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            pointer-events: none;
+            max-width: 340px;
+            text-align: center;
+            line-height: 1.45;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ==========================================================
+           20. INTERACTIVE CHECKLIST
+           ========================================================== */
+        .check-box {
+            cursor: pointer;
+            font-size: 1.2rem;
+            user-select: none;
+            flex-shrink: 0;
+            transition: transform 0.15s ease;
+            line-height: 1;
+        }
+        .check-box:hover { transform: scale(1.15); }
+        .checklist-item.completed .check-content strong { text-decoration: line-through; color: #94a3b8; }
+        .checklist-item.completed .check-content p { color: #cbd5e1; }
     </style>
 </head>
 <body>
 
-    <aside>
-        <div class="branding-zone">
+    <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Open menu">☰</button>
+    <div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+    <div class="toast" id="toastMsg"></div>
+
+    <aside id="sidebar">
+        <div class="branding-zone" onclick="showTab('home')" style="cursor:pointer;" title="Go to Home">
             <img src="AI Parenting Logo_Stacked white transparent.png" alt="AI Parenting Protocol" class="logo-img">
         </div>
         <nav>
@@ -805,50 +936,50 @@
                 <h2>New here? Welcome! Start with this sequence.</h2>
                 <p>Just purchased alongside the course? Work through these steps as you go — they're designed to match each module. Joining after the course? Work through this once in order and you'll be fully set up. Either way — you've got everything you need right here.</p>
                 <div class="checklist-items">
-                    <div class="checklist-item">
-                        <span class="check-box">☐</span>
+                    <div class="checklist-item" id="chk-item-1">
+                        <span class="check-box" onclick="toggleCheck('chk-item-1')">☐</span>
                         <div class="check-content">
                             <strong>Step 1 — Tonight (5 min): Open the App Audit</strong>
                             <p>See the full expanded list of apps — updated regularly, beyond what's in the course. Search for any app your child is using and check its rating. See a Green or Yellow app you want to explore? Click the app name to learn more — some links are affiliate links, which means we may earn a small commission at no extra cost to you. If you spot an app that's missing, use the "Request an App Review" button at the bottom. <em>Pairs with: Module 1</em></p>
                         </div>
                     </div>
-                    <div class="checklist-item">
-                        <span class="check-box">☐</span>
+                    <div class="checklist-item" id="chk-item-2">
+                        <span class="check-box" onclick="toggleCheck('chk-item-2')">☐</span>
                         <div class="check-content">
                             <strong>Step 2 — Before you talk to your kid: Read the Conversation Guide</strong>
                             <p>Before any rules, scripts, or tools — start here. The "Start Here" framing card gives you the one thing to say first that reframes the whole conversation. The Battle Cards are there for when things go sideways. <em>Pairs with: Module 2</em></p>
                         </div>
                     </div>
-                    <div class="checklist-item">
-                        <span class="check-box">☐</span>
+                    <div class="checklist-item" id="chk-item-3">
+                        <span class="check-box" onclick="toggleCheck('chk-item-3')">☐</span>
                         <div class="check-content">
                             <strong>Step 3 — This week: Try one Prompt Vault script</strong>
                             <p>Pick a subject your child is working on and copy a prompt into any AI tool — ChatGPT, Gemini, Claude, anything. First time? Start with the "Set Up Tutor Mode Once" card at the top of the Prompt Vault — takes 3 minutes and your child never has to retype a prompt again. <em>Pairs with: Module 3</em></p>
                         </div>
                     </div>
-                    <div class="checklist-item">
-                        <span class="check-box">☐</span>
+                    <div class="checklist-item" id="chk-item-4">
+                        <span class="check-box" onclick="toggleCheck('chk-item-4')">☐</span>
                         <div class="check-content">
                             <strong>Step 4 — For the next assignment: Use the Disclosure Kit</strong>
                             <p>Show your child one of the three sample completed disclosures so they know what a good one looks like. Then use the chat export guides to save their first AI conversation as a receipt. <em>Pairs with: Module 4</em></p>
                         </div>
                     </div>
-                    <div class="checklist-item">
-                        <span class="check-box">☐</span>
+                    <div class="checklist-item" id="chk-item-5">
+                        <span class="check-box" onclick="toggleCheck('chk-item-5')">☐</span>
                         <div class="check-content">
                             <strong>Step 5 — Before the next big assignment is due: Send the proactive email</strong>
                             <p>Open the School Liaison tab and send the Proactive AI Policy Inquiry to your child's core teachers. Two minutes per teacher, prevents 90% of future issues. <em>Pairs with: Module 5</em></p>
                         </div>
                     </div>
-                    <div class="checklist-item">
-                        <span class="check-box">☐</span>
+                    <div class="checklist-item" id="chk-item-6">
+                        <span class="check-box" onclick="toggleCheck('chk-item-6')">☐</span>
                         <div class="check-content">
                             <strong>Step 6 — This weekend: Build your Family Constitution</strong>
                             <p>Sit down together with the Constitution Builder. The expanded version here includes age-specific clauses and the Human-Edge Ritual Library — not in the base course. <em>Pairs with: Module 6</em></p>
                         </div>
                     </div>
-                    <div class="checklist-item">
-                        <span class="check-box">☐</span>
+                    <div class="checklist-item" id="chk-item-7">
+                        <span class="check-box" onclick="toggleCheck('chk-item-7')">☐</span>
                         <div class="check-content">
                             <strong>Step 7 — Bookmark this dashboard</strong>
                             <p>You'll come back to Emergency Scripts and School Liaison more than you think — especially the first time something unexpected happens. Save it somewhere you can find it fast.</p>
@@ -863,7 +994,7 @@
             <div class="card liaison-callout">
                 <h2>Want to stay connected as AI keeps changing?</h2>
                 <p>New apps drop every week. Policies shift. Your kids discover something new before you've even heard of it. The AI Liaison Lab is where Nick shares monthly app vibe-checks, real-time alerts on new tools, and a community of parents figuring this out together. It's the ongoing support layer for everything you've built here.</p>
-                <button class="btn-green">Learn More About the Liaison Lab →</button>
+                <button class="btn-green" onclick="showToast('The AI Liaison Lab is coming soon! Members get early access and monthly app updates. Stay tuned — we\'ll send an announcement when doors open.')">Learn More About the Liaison Lab →</button>
                 <p class="callout-note">Members get first access to dashboard updates and new content as it's added.</p>
             </div>
 
@@ -924,7 +1055,7 @@
 
             <div class="request-row">
                 <p>Missing a tool? We review new apps regularly.</p>
-                <button class="btn-blue btn-sm">Request an App Review</button>
+                <a href="mailto:hello@aiparentingprotocol.com?subject=App%20Review%20Request&body=Hi!%20I'd%20like%20to%20request%20a%20review%20for%20the%20following%20app%3A%0A%0AApp%20Name%3A%20%0ALink%20or%20App%20Store%20URL%3A%20%0AWhy%20I%27m%20asking%3A%20" class="btn-blue btn-sm" style="text-decoration:none;display:inline-block;">Request an App Review</a>
             </div>
         </div>
 
@@ -946,6 +1077,28 @@
                     <button class="filter-btn"        onclick="filterCategory(event, 'STEM')">Science/STEM</button>
                     <button class="filter-btn"        onclick="filterCategory(event, 'Humanities')">History &amp; Civics</button>
                     <button class="filter-btn"        onclick="filterCategory(event, 'Life Skills')">Strategy &amp; Success</button>
+                </div>
+            </div>
+
+            <!-- Pinned: Set Up Tutor Mode Once -->
+            <div class="card" style="border:2px solid var(--brand-green);margin-bottom:24px;position:relative;">
+                <div style="position:absolute;top:-1px;left:20px;background:var(--brand-green);color:white;font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.07em;padding:3px 10px;border-radius:0 0 6px 6px;">📌 Start Here — Do This Once</div>
+                <div style="margin-top:14px;">
+                    <div class="prompt-header">
+                        <h3>🎓 Set Up Tutor Mode Once</h3>
+                        <span class="category-tag">Master Setup</span>
+                    </div>
+                    <p style="font-size:0.88rem;color:#64748b;margin-bottom:10px;">Paste this into ANY AI tool (ChatGPT, Claude, Gemini — anything) at the start of a new session. It locks the AI into tutor mode for the entire conversation so your child never has to re-explain the rules. Do this once per session — takes 30 seconds.</p>
+                    <pre id="tutor-mode-setup">You are a Socratic tutor helping a [GRADE] student with [SUBJECT]. Your rules for this entire conversation:
+
+1. NEVER give a direct answer to a homework question. Always respond with a guiding question instead.
+2. If the student gets stuck, give a hint — not the answer.
+3. After each correct response, say "Good thinking — here's why that works:" and explain the concept briefly.
+4. If the student asks you to "just tell me the answer," respond: "I know you can figure this out. What do you already know about this?"
+5. At the end of the session, give a 3-sentence summary of what the student learned today.
+
+Start by asking: "What are we working on today, and what have you tried so far?"</pre>
+                    <button class="copy-btn" onclick="copyText('tutor-mode-setup')">Copy Master Prompt</button>
                 </div>
             </div>
 
@@ -1676,20 +1829,491 @@ Best regards,
         <!-- ===================== DISCLOSURE KIT ===================== -->
         <div id="disclosure" class="tab-content">
             <h1>Disclosure Kit</h1>
-            <p class="sub-header">Sample completed AI disclosure forms and step-by-step chat export guides.</p>
-            <div class="card"><p>Full content coming soon.</p></div>
-        </div>
+            <p class="sub-header">Sample completed AI disclosure forms for common assignment types — plus step-by-step guides to export and save AI conversations as receipts.</p>
 
-        <!-- ===================== CONSTITUTION ===================== -->
+            <!-- Intro callout -->
+            <div class="start-here-card card" style="margin-bottom:28px;">
+                <div style="display:flex;align-items:flex-start;gap:14px;">
+                    <span style="font-size:1.8rem;">📋</span>
+                    <div>
+                        <h3 style="margin-bottom:6px;">How to Use This Tab</h3>
+                        <p style="color:#64748b;font-size:0.93rem;margin-bottom:10px;">These are <strong>completed sample forms</strong> — show them to your child so they know exactly what a good AI disclosure looks like. The form itself should come from their teacher or school. Use the export guides to save a copy of the AI conversation as proof of appropriate use.</p>
+                        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                            <span style="background:#fef9c3;color:#713f12;font-size:0.78rem;font-weight:700;padding:4px 10px;border-radius:20px;">Step 1: Review a Sample Form</span>
+                            <span style="font-size:0.78rem;color:#94a3b8;padding:4px 2px;">→</span>
+                            <span style="background:#dcfce7;color:#14532d;font-size:0.78rem;font-weight:700;padding:4px 10px;border-radius:20px;">Step 2: Export the AI Chat</span>
+                            <span style="font-size:0.78rem;color:#94a3b8;padding:4px 2px;">→</span>
+                            <span style="background:#dbeafe;color:#1e3a8a;font-size:0.78rem;font-weight:700;padding:4px 10px;border-radius:20px;">Step 3: Submit with Assignment</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Sample Forms -->
+            <h2 style="margin-bottom:16px;">📄 Sample Completed Disclosure Forms</h2>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;margin-bottom:36px;">
+
+                <!-- Form 1: Essay -->
+                <div class="card" style="padding:0;overflow:hidden;">
+                    <div class="disclosure-form-header">
+                        <h3>Sample Form #1 — Persuasive Essay</h3>
+                        <div class="disclosure-meta-grid">
+                            <div class="disclosure-meta-row"><span class="disclosure-meta-label">Subject:</span> <span class="disclosure-meta-value">English / Language Arts</span></div>
+                            <div class="disclosure-meta-row"><span class="disclosure-meta-label">Grade:</span> <span class="disclosure-meta-value">8th Grade</span></div>
+                            <div class="disclosure-meta-row"><span class="disclosure-meta-label">Assignment:</span> <span class="disclosure-meta-value">Persuasive Essay on Climate Policy</span></div>
+                            <div class="disclosure-meta-row"><span class="disclosure-meta-label">Date:</span> <span class="disclosure-meta-value">Submitted with assignment</span></div>
+                        </div>
+                    </div>
+                    <div style="padding:20px;">
+                        <span class="disclosure-num">Section 1 of 4</span>
+                        <p class="disclosure-section-title">What AI tool(s) did you use?</p>
+                        <p class="disclosure-section-body">I used ChatGPT (GPT-4) and Claude.ai.</p>
+
+                        <span class="disclosure-num">Section 2 of 4</span>
+                        <p class="disclosure-section-title">What did you use it for?</p>
+                        <p class="disclosure-section-body">I asked ChatGPT to help me brainstorm three possible thesis statements after I had already chosen my topic (renewable energy mandates). I then used Claude to help me identify weak spots in my argument after I had written my first draft. It pointed out that my second paragraph didn't have a strong counter-argument.</p>
+
+                        <span class="disclosure-num">Section 3 of 4</span>
+                        <p class="disclosure-section-title">What did you write yourself (without AI)?</p>
+                        <p class="disclosure-section-body">All of the final writing is my own. I chose Thesis #2 from the brainstorm list and rewrote it completely in my own words. I added the counter-argument myself after Claude identified the gap. The conclusion is 100% original.</p>
+
+                        <span class="disclosure-num">Section 4 of 4</span>
+                        <p class="disclosure-section-title">What did you learn from this process?</p>
+                        <p class="disclosure-section-body last">I learned that a strong persuasive essay needs to acknowledge the other side before dismissing it. I wouldn't have caught that weakness without the AI feedback, but I fixed it by doing my own research on energy subsidies.</p>
+
+                        <div class="disclosure-sig">
+                            <div><strong>Student:</strong> _________________ &nbsp; <strong>Date:</strong> _______</div>
+                            <div><strong>Parent/Guardian:</strong> _________________</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form 2: Math -->
+                <div class="card" style="padding:0;overflow:hidden;">
+                    <div class="disclosure-form-header">
+                        <h3>Sample Form #2 — Math Problem Set</h3>
+                        <div class="disclosure-meta-grid">
+                            <div class="disclosure-meta-row"><span class="disclosure-meta-label">Subject:</span> <span class="disclosure-meta-value">Algebra II / Pre-Calculus</span></div>
+                            <div class="disclosure-meta-row"><span class="disclosure-meta-label">Grade:</span> <span class="disclosure-meta-value">10th Grade</span></div>
+                            <div class="disclosure-meta-row"><span class="disclosure-meta-label">Assignment:</span> <span class="disclosure-meta-value">Quadratic Functions Problem Set</span></div>
+                            <div class="disclosure-meta-row"><span class="disclosure-meta-label">Date:</span> <span class="disclosure-meta-value">Submitted with assignment</span></div>
+                        </div>
+                    </div>
+                    <div style="padding:20px;">
+                        <span class="disclosure-num">Section 1 of 4</span>
+                        <p class="disclosure-section-title">What AI tool(s) did you use?</p>
+                        <p class="disclosure-section-body">I used Khanmigo (Khan Academy's AI tutor) and WolframAlpha.</p>
+
+                        <span class="disclosure-num">Section 2 of 4</span>
+                        <p class="disclosure-section-title">What did you use it for?</p>
+                        <p class="disclosure-section-body">I got stuck on Problems 4 and 7 (completing the square). I asked Khanmigo to explain the concept again without giving me the answer. It walked me through a similar example step-by-step. I used WolframAlpha to check my final answers on Problems 1–3 after I had already solved them.</p>
+
+                        <span class="disclosure-num">Section 3 of 4</span>
+                        <p class="disclosure-section-title">What did you write yourself (without AI)?</p>
+                        <p class="disclosure-section-body">I solved all 10 problems myself. The AI did not solve any problem for me. I used it only to re-explain a concept I already learned in class (it was originally covered on Day 12 — I just forgot the middle step).</p>
+
+                        <span class="disclosure-num">Section 4 of 4</span>
+                        <p class="disclosure-section-title">What did you learn from this process?</p>
+                        <p class="disclosure-section-body last">I learned that completing the square requires you to keep the equation balanced on both sides when you add the constant. I was only adding it to one side. I'll remember this on the test because I figured it out myself after the hint.</p>
+
+                        <div class="disclosure-sig">
+                            <div><strong>Student:</strong> _________________ &nbsp; <strong>Date:</strong> _______</div>
+                            <div><strong>Parent/Guardian:</strong> _________________</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form 3: Research -->
+                <div class="card" style="padding:0;overflow:hidden;">
+                    <div class="disclosure-form-header">
+                        <h3>Sample Form #3 — Research Project</h3>
+                        <div class="disclosure-meta-grid">
+                            <div class="disclosure-meta-row"><span class="disclosure-meta-label">Subject:</span> <span class="disclosure-meta-value">History / Social Studies</span></div>
+                            <div class="disclosure-meta-row"><span class="disclosure-meta-label">Grade:</span> <span class="disclosure-meta-value">9th Grade</span></div>
+                            <div class="disclosure-meta-row"><span class="disclosure-meta-label">Assignment:</span> <span class="disclosure-meta-value">Research Paper: Civil Rights Movement</span></div>
+                            <div class="disclosure-meta-row"><span class="disclosure-meta-label">Date:</span> <span class="disclosure-meta-value">Submitted with assignment</span></div>
+                        </div>
+                    </div>
+                    <div style="padding:20px;">
+                        <span class="disclosure-num">Section 1 of 4</span>
+                        <p class="disclosure-section-title">What AI tool(s) did you use?</p>
+                        <p class="disclosure-section-body">I used Perplexity AI and NotebookLM (with my textbook chapter uploaded).</p>
+
+                        <span class="disclosure-num">Section 2 of 4</span>
+                        <p class="disclosure-section-title">What did you use it for?</p>
+                        <p class="disclosure-section-body">I used Perplexity to find 5 potential sources on the Birmingham Campaign. I then verified each source by clicking the links and reading the actual articles myself — I only kept 3 of them. I used NotebookLM to generate a summary of my textbook chapter to help me identify the key events I needed to cover.</p>
+
+                        <span class="disclosure-num">Section 3 of 4</span>
+                        <p class="disclosure-section-title">What did you write yourself (without AI)?</p>
+                        <p class="disclosure-section-body">All writing is my own. I did not paste any AI-generated text into my paper. My thesis was developed based on my own reading of the sources. The outline, arguments, and transitions are original. I typed the bibliography myself.</p>
+
+                        <span class="disclosure-num">Section 4 of 4</span>
+                        <p class="disclosure-section-title">What did you learn from this process?</p>
+                        <p class="disclosure-section-body last">I learned that Perplexity sometimes surfaces sources that sound real but have errors in the citation. I had to double-check two sources it suggested and found they weren't quite right. This made me realize I can't trust AI summaries of sources without checking the original.</p>
+
+                        <div class="disclosure-sig">
+                            <div><strong>Student:</strong> _________________ &nbsp; <strong>Date:</strong> _______</div>
+                            <div><strong>Parent/Guardian:</strong> _________________</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /forms grid -->
+
+            <!-- Section: Chat Export Guides -->
+            <h2 style="margin-bottom:8px;">📤 How to Export & Save AI Conversations</h2>
+            <p style="color:#64748b;font-size:0.93rem;margin-bottom:20px;">Save a copy of every AI session used for schoolwork. This is your child's "receipt" — proof of how AI was used, in case anyone asks.</p>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;">
+
+                <div class="card">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+                        <span style="font-size:1.6rem;">💬</span>
+                        <h3 style="margin:0;">ChatGPT Export</h3>
+                    </div>
+                    <ol style="padding-left:18px;color:#475569;font-size:0.9rem;line-height:1.9;">
+                        <li>Open the conversation in ChatGPT</li>
+                        <li>Click the <strong>Share</strong> icon (top-right, looks like a box with an arrow)</li>
+                        <li>Select <strong>"Copy Link"</strong> to get a shareable URL</li>
+                        <li>Alternatively: right-click anywhere → <strong>Print</strong> → <strong>Save as PDF</strong></li>
+                        <li>Name the file: <em>LastName_Assignment_AIReceipt.pdf</em></li>
+                        <li>Attach alongside the submitted assignment</li>
+                    </ol>
+                    <div style="margin-top:12px;background:#f0f9ff;border-radius:6px;padding:10px;font-size:0.82rem;color:#0369a1;"><strong>Pro tip:</strong> The Share link captures the full conversation history including timestamps.</div>
+                </div>
+
+                <div class="card">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+                        <span style="font-size:1.6rem;">🤖</span>
+                        <h3 style="margin:0;">Claude Export</h3>
+                    </div>
+                    <ol style="padding-left:18px;color:#475569;font-size:0.9rem;line-height:1.9;">
+                        <li>Open the conversation on claude.ai</li>
+                        <li>Click the <strong>⋯ (three dots)</strong> menu next to the conversation title</li>
+                        <li>Look for <strong>"Export"</strong> or use browser Print (⌘P / Ctrl+P)</li>
+                        <li>Choose <strong>Save as PDF</strong> in the print dialog</li>
+                        <li>Review the PDF — it will show all prompts and responses with timestamps</li>
+                        <li>Name and file it with the assignment</li>
+                    </ol>
+                    <div style="margin-top:12px;background:#f0f9ff;border-radius:6px;padding:10px;font-size:0.82rem;color:#0369a1;"><strong>Pro tip:</strong> Claude shows conversation history in the left sidebar — each project or chat is separate.</div>
+                </div>
+
+                <div class="card">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+                        <span style="font-size:1.6rem;">✨</span>
+                        <h3 style="margin:0;">Gemini / Google AI Export</h3>
+                    </div>
+                    <ol style="padding-left:18px;color:#475569;font-size:0.9rem;line-height:1.9;">
+                        <li>Open the Gemini conversation at gemini.google.com</li>
+                        <li>Click the <strong>Share &amp; Export</strong> button (top-right area)</li>
+                        <li>Choose <strong>"Export to Google Docs"</strong> for a clean editable copy</li>
+                        <li>Or use File → Print → Save as PDF directly from the browser</li>
+                        <li>The Google Doc version preserves formatting better for submission</li>
+                        <li>Share the Doc link with the teacher or attach the PDF</li>
+                    </ol>
+                    <div style="margin-top:12px;background:#f0f9ff;border-radius:6px;padding:10px;font-size:0.82rem;color:#0369a1;"><strong>Pro tip:</strong> "Export to Docs" is the cleanest option — it's already in the Google ecosystem teachers use.</div>
+                </div>
+
+                <div class="card">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+                        <span style="font-size:1.6rem;">📱</span>
+                        <h3 style="margin:0;">Mobile / Any App (Universal Method)</h3>
+                    </div>
+                    <ol style="padding-left:18px;color:#475569;font-size:0.9rem;line-height:1.9;">
+                        <li>Screenshot every screen of the conversation (iOS: Side + Volume Up; Android: Power + Vol Down)</li>
+                        <li>Or open the app in a mobile browser instead of the app itself</li>
+                        <li>In the browser, tap <strong>Share → Print → Save as PDF</strong></li>
+                        <li>On iPhone: use the <strong>Files app</strong> to organize saved PDFs by subject</li>
+                        <li>On Android: PDFs save automatically to Downloads</li>
+                        <li>Email the PDF to a parent or teacher email for safekeeping</li>
+                    </ol>
+                    <div style="margin-top:12px;background:#fefce8;border-radius:6px;padding:10px;font-size:0.82rem;color:#713f12;"><strong>Habit tip:</strong> Have your child save the receipt BEFORE closing the app — it's easy to forget once the conversation is buried.</div>
+                </div>
+
+            </div><!-- /export guides -->
+
+        </div><!-- /disclosure -->
+
+        <!-- ===================== CONSTITUTION BUILDER ===================== -->
         <div id="constitution" class="tab-content">
             <h1>Constitution Builder</h1>
-            <div class="card"><p>Home agreements coming soon.</p></div>
-        </div>
+            <p class="sub-header">Build your family's AI home agreement — six sections, age-specific clauses, and rituals to make it stick.</p>
+
+            <!-- Intro callout -->
+            <div class="start-here-card card" style="margin-bottom:28px;">
+                <div style="display:flex;align-items:flex-start;gap:14px;">
+                    <span style="font-size:1.8rem;">📜</span>
+                    <div>
+                        <h3 style="margin-bottom:6px;">How to Use This Tab</h3>
+                        <p style="color:#64748b;font-size:0.93rem;margin-bottom:10px;">A family AI Constitution is a living document — not a rulebook your child resents, but an agreement you <em>build together</em>. Read through the full template below, choose age-appropriate clauses from the library, then schedule one of the rituals to keep it alive. <em>Pairs with: Module 5</em></p>
+                        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                            <button class="btn-blue" onclick="printConstitution()" style="font-size:0.88rem;padding:9px 18px;">🖨️ Print / Save Constitution</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- The 6-Section Constitution -->
+            <h2 style="margin-bottom:16px;">📋 The Family AI Constitution Template</h2>
+            <div class="constitution-doc">
+                <div class="constitution-doc-header">
+                    <h3>The [Family Name] Family AI Agreement</h3>
+                    <div style="display:flex;gap:16px;flex-wrap:wrap;">
+                        <span style="color:rgba(255,255,255,0.7);font-size:0.83rem;">Signed: _____________</span>
+                        <span style="color:rgba(255,255,255,0.7);font-size:0.83rem;">Review Date: _____________</span>
+                    </div>
+                </div>
+
+                <div class="constitution-section-block" id="const-s1">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                        <span style="background:var(--primary-navy);color:white;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.85rem;flex-shrink:0;">1</span>
+                        <h3 style="margin:0;">Our Shared Values</h3>
+                    </div>
+                    <p style="color:#475569;font-size:0.92rem;line-height:1.7;margin-bottom:10px;">We believe AI is a powerful tool that, like all tools, must be used with integrity. In our home, we use AI to <strong>learn more</strong>, not to <strong>think less</strong>. We believe in honest work, human creativity, and taking responsibility for everything we create — even when we use technology to help us create it.</p>
+                    <pre id="const-text-1" style="background:#f8fafc;border:1px dashed #cbd5e1;border-radius:6px;padding:12px;font-size:0.85rem;color:#475569;white-space:pre-wrap;font-family:inherit;line-height:1.7;">We, the [Family Name] family, agree that AI is a tool — not a shortcut. We will use it to help us think better, not instead of thinking. We take ownership of everything we submit, say, or create, even when AI helped us get there.</pre>
+                    <button class="copy-btn" onclick="copyText('const-text-1')" style="margin-top:10px;">Copy Section 1</button>
+                </div>
+
+                <div class="constitution-section-block" id="const-s2">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                        <span style="background:var(--primary-navy);color:white;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.85rem;flex-shrink:0;">2</span>
+                        <h3 style="margin:0;">Approved Tools & Boundaries</h3>
+                    </div>
+                    <p style="color:#475569;font-size:0.92rem;line-height:1.7;margin-bottom:10px;">List which AI tools are approved for use in your home and for what purpose. Be specific — "AI for homework" is too vague. "Khanmigo for math help, but not for writing full answers" is a real boundary.</p>
+                    <pre id="const-text-2" style="background:#f8fafc;border:1px dashed #cbd5e1;border-radius:6px;padding:12px;font-size:0.85rem;color:#475569;white-space:pre-wrap;font-family:inherit;line-height:1.7;">APPROVED TOOLS IN OUR HOME:
+✅ Khanmigo — math tutoring only (no essay writing)
+✅ NotebookLM — research & study guides from uploaded materials
+✅ Grammarly — grammar and spelling only (no AI Rewrite feature)
+
+NOT APPROVED (without parent conversation first):
+❌ Character.AI / social AI companions
+❌ Any AI that requires a new account without parent approval
+❌ Using AI to write anything submitted as the student's own work</pre>
+                    <button class="copy-btn" onclick="copyText('const-text-2')" style="margin-top:10px;">Copy Section 2</button>
+                </div>
+
+                <div class="constitution-section-block" id="const-s3">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                        <span style="background:var(--primary-navy);color:white;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.85rem;flex-shrink:0;">3</span>
+                        <h3 style="margin:0;">The Disclosure Commitment</h3>
+                    </div>
+                    <p style="color:#475569;font-size:0.92rem;line-height:1.7;margin-bottom:10px;">Transparency is not optional. Every time AI is used for schoolwork, it gets disclosed — on the form, to the parent, or both. The habit of disclosure is more important than the specific tool used.</p>
+                    <pre id="const-text-3" style="background:#f8fafc;border:1px dashed #cbd5e1;border-radius:6px;padding:12px;font-size:0.85rem;color:#475569;white-space:pre-wrap;font-family:inherit;line-height:1.7;">We commit to disclosing AI use on every school assignment where AI was involved — even if the teacher didn't ask. We will export and save a copy of every AI conversation used for school. We will not hide AI use or pretend work is 100% original when it isn't.
+
+If a teacher did not give us a disclosure form, we will write a short note at the bottom of the assignment: "Note: I used [Tool] to help with [specific task]. All final writing/work is my own."</pre>
+                    <button class="copy-btn" onclick="copyText('const-text-3')" style="margin-top:10px;">Copy Section 3</button>
+                </div>
+
+                <div class="constitution-section-block" id="const-s4">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                        <span style="background:var(--primary-navy);color:white;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.85rem;flex-shrink:0;">4</span>
+                        <h3 style="margin:0;">Time & Place Rules</h3>
+                    </div>
+                    <p style="color:#475569;font-size:0.92rem;line-height:1.7;margin-bottom:10px;">Where and when AI can be used matters as much as which tools. Boundaries here protect focus, sleep, and the habit of doing hard things independently first.</p>
+                    <pre id="const-text-4" style="background:#f8fafc;border:1px dashed #cbd5e1;border-radius:6px;padding:12px;font-size:0.85rem;color:#475569;white-space:pre-wrap;font-family:inherit;line-height:1.7;">TIME & PLACE BOUNDARIES:
+📍 AI for homework is used in a shared space (kitchen, living room) — not alone in a bedroom
+🕐 No AI tools after [TIME] on school nights
+📵 No AI during meals or family time
+⏱️ The "Struggle First" rule: spend at least 15 minutes on a problem before opening an AI tool
+🔋 All devices (including AI sessions) are charged outside the bedroom by [BEDTIME]</pre>
+                    <button class="copy-btn" onclick="copyText('const-text-4')" style="margin-top:10px;">Copy Section 4</button>
+                </div>
+
+                <div class="constitution-section-block" id="const-s5">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                        <span style="background:var(--primary-navy);color:white;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.85rem;flex-shrink:0;">5</span>
+                        <h3 style="margin:0;">Consequences & Second Chances</h3>
+                    </div>
+                    <p style="color:#475569;font-size:0.92rem;line-height:1.7;margin-bottom:10px;">Spell out what happens when the agreement is broken — and how to earn trust back. Consequences work when they're known in advance and applied calmly.</p>
+                    <pre id="const-text-5" style="background:#f8fafc;border:1px dashed #cbd5e1;border-radius:6px;padding:12px;font-size:0.85rem;color:#475569;white-space:pre-wrap;font-family:inherit;line-height:1.7;">IF THE AGREEMENT IS BROKEN:
+First instance: Conversation about what happened + 1-week removal of the specific tool
+Second instance: Removal of all AI tools for [PERIOD] + joint meeting to revise the constitution
+Third instance: [Parent and student decide together]
+
+THE SECOND CHANCE PROTOCOL:
+After a violation, trust is rebuilt by: (1) the student voluntarily showing parents their AI conversations for 2 weeks, (2) completing one major assignment without any AI assistance, and (3) presenting what they learned from the experience.</pre>
+                    <button class="copy-btn" onclick="copyText('const-text-5')" style="margin-top:10px;">Copy Section 5</button>
+                </div>
+
+                <div class="constitution-section-block" id="const-s6">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                        <span style="background:var(--primary-navy);color:white;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.85rem;flex-shrink:0;">6</span>
+                        <h3 style="margin:0;">Review Schedule</h3>
+                    </div>
+                    <p style="color:#475569;font-size:0.92rem;line-height:1.7;margin-bottom:10px;">AI changes fast. Your agreement needs to change with it. Build in formal review dates so the constitution stays relevant and your child has a voice in updating it.</p>
+                    <pre id="const-text-6" style="background:#f8fafc;border:1px dashed #cbd5e1;border-radius:6px;padding:12px;font-size:0.85rem;color:#475569;white-space:pre-wrap;font-family:inherit;line-height:1.7;">This agreement will be reviewed and updated:
+📅 Every semester (start of school year + January)
+📅 Any time a new AI tool becomes popular with our child's friend group
+📅 Any time a teacher or school sends home new AI guidance
+📅 Any time someone in our home feels the current agreement isn't working
+
+Reviews are a conversation, not an interrogation. All family members have a voice. Changes require agreement from both parents and the student.</pre>
+                    <button class="copy-btn" onclick="copyText('const-text-6')" style="margin-top:10px;">Copy Section 6</button>
+                </div>
+            </div><!-- /constitution-doc -->
+
+            <!-- Age Clause Library -->
+            <h2 style="margin-bottom:8px;">🗂️ Age-Appropriate Clause Library</h2>
+            <p style="color:#64748b;font-size:0.93rem;margin-bottom:20px;">Pick clauses that fit your child's age and maturity. Swap them into any section of the constitution above.</p>
+
+            <div class="clause-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:36px;">
+
+                <div class="card" style="border-top:3px solid #40aa78;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                        <span style="background:#dcfce7;color:#14532d;font-size:0.75rem;font-weight:800;padding:3px 9px;border-radius:20px;">Ages 8–10</span>
+                        <h3 style="margin:0;font-size:0.95rem;">Elementary Clauses</h3>
+                    </div>
+                    <ul style="padding-left:16px;color:#475569;font-size:0.88rem;line-height:1.9;">
+                        <li>AI tools are only for educational apps approved by a parent</li>
+                        <li>All AI use happens with a parent nearby</li>
+                        <li>We always tell a parent what we asked the AI and what it said</li>
+                        <li>We never share our full name, school, or address with any AI</li>
+                        <li>We only use AI on the family iPad/computer — not a personal phone</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="border-top:3px solid #3191b7;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                        <span style="background:#dbeafe;color:#1e3a8a;font-size:0.75rem;font-weight:800;padding:3px 9px;border-radius:20px;">Ages 11–13</span>
+                        <h3 style="margin:0;font-size:0.95rem;">Middle School Clauses</h3>
+                    </div>
+                    <ul style="padding-left:16px;color:#475569;font-size:0.88rem;line-height:1.9;">
+                        <li>The "Struggle First" rule: 20 minutes of independent work before AI</li>
+                        <li>No social AI companions (Character.AI, Replika, etc.)</li>
+                        <li>Parent reviews AI history once a week — no deleting conversations</li>
+                        <li>Disclose AI use on every school assignment, even if not required</li>
+                        <li>No new AI accounts without parent approval and conversation</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="border-top:3px solid #072a51;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                        <span style="background:#e0e7ff;color:#3730a3;font-size:0.75rem;font-weight:800;padding:3px 9px;border-radius:20px;">Ages 14–16</span>
+                        <h3 style="margin:0;font-size:0.95rem;">High School (Early) Clauses</h3>
+                    </div>
+                    <ul style="padding-left:16px;color:#475569;font-size:0.88rem;line-height:1.9;">
+                        <li>The "50/50 Rule" for essays: AI for outlines only, all prose is original</li>
+                        <li>Monthly "AI Audit" conversation with a parent — what tools, what for</li>
+                        <li>Know your school's AI policy — parent and student review it together</li>
+                        <li>No AI on assessments, quizzes, or tests — even "just to check"</li>
+                        <li>Export and file every AI conversation used for schoolwork</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="border-top:3px solid #334155;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                        <span style="background:#f1f5f9;color:#334155;font-size:0.75rem;font-weight:800;padding:3px 9px;border-radius:20px;">Ages 17–18</span>
+                        <h3 style="margin:0;font-size:0.95rem;">Pre-College Clauses</h3>
+                    </div>
+                    <ul style="padding-left:16px;color:#475569;font-size:0.88rem;line-height:1.9;">
+                        <li>College essays must be 100% the student's own words — no AI drafting</li>
+                        <li>Student leads their own quarterly AI review and presents it to parents</li>
+                        <li>Understands academic integrity consequences at the college level</li>
+                        <li>Proactively asks professors/colleges about their AI policies</li>
+                        <li>Has a personal "AI ethics position" they can articulate to others</li>
+                    </ul>
+                </div>
+
+            </div><!-- /clause-grid -->
+
+            <!-- Resolution Protocol -->
+            <h2 style="margin-bottom:16px;">⚖️ Conflict Resolution Protocol</h2>
+            <div class="card" style="margin-bottom:36px;">
+                <p style="color:#475569;font-size:0.92rem;margin-bottom:16px;">When someone in the family thinks the constitution isn't being followed — or isn't working — use this four-step process before consequences are applied.</p>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;">
+                    <div style="background:#f8fafc;border-radius:8px;padding:14px;">
+                        <div style="font-weight:800;color:var(--primary-navy);font-size:0.85rem;margin-bottom:6px;">Step 1 — Pause</div>
+                        <p style="font-size:0.87rem;color:#64748b;line-height:1.6;">No consequences in the moment of discovery. Wait 24 hours before any formal conversation. This isn't a soft response — it's a strategic one.</p>
+                    </div>
+                    <div style="background:#f8fafc;border-radius:8px;padding:14px;">
+                        <div style="font-weight:800;color:var(--primary-navy);font-size:0.85rem;margin-bottom:6px;">Step 2 — Understand</div>
+                        <p style="font-size:0.87rem;color:#64748b;line-height:1.6;">Ask: "Walk me through what happened." Listen for the full picture. Often a violation has context — pressure, confusion about the rules, a one-time test.</p>
+                    </div>
+                    <div style="background:#f8fafc;border-radius:8px;padding:14px;">
+                        <div style="font-weight:800;color:var(--primary-navy);font-size:0.85rem;margin-bottom:6px;">Step 3 — Decide Together</div>
+                        <p style="font-size:0.87rem;color:#64748b;line-height:1.6;">Use Section 5 (Consequences) as the guide, but invite the student to propose what fair accountability looks like. Co-ownership leads to compliance.</p>
+                    </div>
+                    <div style="background:#f8fafc;border-radius:8px;padding:14px;">
+                        <div style="font-weight:800;color:var(--primary-navy);font-size:0.85rem;margin-bottom:6px;">Step 4 — Update the Doc</div>
+                        <p style="font-size:0.87rem;color:#64748b;line-height:1.6;">If the violation revealed a gap in the constitution, fix it. A conflict is a free revision session. Update, re-sign, and move forward.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ritual Cards -->
+            <h2 style="margin-bottom:8px;">🎯 10 Rituals to Make It Stick</h2>
+            <p style="color:#64748b;font-size:0.93rem;margin-bottom:20px;">The constitution is only as good as the habits built around it. Pick 1–2 rituals and commit to them for 30 days before adding more.</p>
+
+            <div class="ritual-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;">
+
+                <div class="card">
+                    <div style="font-size:1.5rem;margin-bottom:8px;">📅</div>
+                    <h3 style="font-size:0.95rem;margin-bottom:6px;">The Sunday Sync</h3>
+                    <p style="font-size:0.87rem;color:#64748b;line-height:1.6;">5 minutes every Sunday: "What did you use AI for this week? Show me one conversation." No judgment — just awareness. Builds the habit of transparency.</p>
+                </div>
+
+                <div class="card">
+                    <div style="font-size:1.5rem;margin-bottom:8px;">🏆</div>
+                    <h3 style="font-size:0.95rem;margin-bottom:6px;">The Weekly Win</h3>
+                    <p style="font-size:0.87rem;color:#64748b;line-height:1.6;">Every week, ask your child to show you one thing they did WITHOUT AI help and celebrate it. Protects their identity as a capable human thinker.</p>
+                </div>
+
+                <div class="card">
+                    <div style="font-size:1.5rem;margin-bottom:8px;">🤝</div>
+                    <h3 style="font-size:0.95rem;margin-bottom:6px;">The Monthly Co-Session</h3>
+                    <p style="font-size:0.87rem;color:#64748b;line-height:1.6;">Once a month, sit together and use an AI tool for something FUN — a family recipe, a travel plan, a creative story. Shows AI as a positive tool, not just a surveillance subject.</p>
+                </div>
+
+                <div class="card">
+                    <div style="font-size:1.5rem;margin-bottom:8px;">📝</div>
+                    <h3 style="font-size:0.95rem;margin-bottom:6px;">The Semester Re-Sign</h3>
+                    <p style="font-size:0.87rem;color:#64748b;line-height:1.6;">At the start of every semester, pull out the constitution, read it together, and re-sign it with any updates. The re-signing ceremony makes it feel real and respected.</p>
+                </div>
+
+                <div class="card">
+                    <div style="font-size:1.5rem;margin-bottom:8px;">🧠</div>
+                    <h3 style="font-size:0.95rem;margin-bottom:6px;">The "What Did YOU Think?" Habit</h3>
+                    <p style="font-size:0.87rem;color:#64748b;line-height:1.6;">When your child shares something AI helped with, always follow up: "And what do YOU think about it?" Keeps their critical thinking muscles active and models healthy skepticism.</p>
+                </div>
+
+                <div class="card">
+                    <div style="font-size:1.5rem;margin-bottom:8px;">🛡️</div>
+                    <h3 style="font-size:0.95rem;margin-bottom:6px;">The "No AI" Challenge</h3>
+                    <p style="font-size:0.87rem;color:#64748b;line-height:1.6;">Once a month, pick one homework assignment to complete with zero AI. Afterward: "How did that feel? What was hard?" Builds confidence and reveals AI dependency patterns.</p>
+                </div>
+
+                <div class="card">
+                    <div style="font-size:1.5rem;margin-bottom:8px;">💬</div>
+                    <h3 style="font-size:0.95rem;margin-bottom:6px;">The Dinner Prompt</h3>
+                    <p style="font-size:0.87rem;color:#64748b;line-height:1.6;">Keep a rotating "AI question of the week" on the dinner table: "Was there anything AI got wrong for you this week?" Normalizes critical evaluation without making it a lecture.</p>
+                </div>
+
+                <div class="card">
+                    <div style="font-size:1.5rem;margin-bottom:8px;">📖</div>
+                    <h3 style="font-size:0.95rem;margin-bottom:6px;">The Disclosure Review</h3>
+                    <p style="font-size:0.87rem;color:#64748b;line-height:1.6;">Once a quarter, look at the folder of saved AI conversation receipts together. Ask: "Are you proud of how you used these?" Self-reflection builds integrity faster than punishment.</p>
+                </div>
+
+                <div class="card">
+                    <div style="font-size:1.5rem;margin-bottom:8px;">🎓</div>
+                    <h3 style="font-size:0.95rem;margin-bottom:6px;">The "Teach Me" Flip</h3>
+                    <p style="font-size:0.87rem;color:#64748b;line-height:1.6;">Occasionally ask your child to teach YOU something about an AI tool they use. Reversal builds confidence, reveals depth of understanding, and shows you trust their knowledge.</p>
+                </div>
+
+                <div class="card">
+                    <div style="font-size:1.5rem;margin-bottom:8px;">🗓️</div>
+                    <h3 style="font-size:0.95rem;margin-bottom:6px;">The Annual "State of AI" Talk</h3>
+                    <p style="font-size:0.87rem;color:#64748b;line-height:1.6;">Every year (birthday, New Year, summer) have a bigger conversation: "What's changed in AI? What's changed for you? What do we want the next year to look like?" Evolves the relationship as they grow.</p>
+                </div>
+
+            </div><!-- /ritual-grid -->
+
+        </div><!-- /constitution -->
 
     </main>
 
     <footer>
-        <div>&copy; 2026 AI Parenting Protocol</div>
+        <div>&copy; 2026 Resonance Connection, LLC</div>
         <div class="footer-links">
             <a href="#">Support</a>
             <a href="#">Privacy</a>
@@ -1709,7 +2333,56 @@ Best regards,
 
             const li = document.getElementById('li-' + tabName);
             if (li) li.classList.add('active');
+
+            // Auto-close sidebar on mobile when a tab is selected
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar && sidebar.classList.contains('mobile-open')) {
+                toggleMobileMenu();
+            }
+
+            // Scroll to top of content
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        /* --------------------------------------------------
+           TOAST NOTIFICATION
+        -------------------------------------------------- */
+        let toastTimer;
+        function showToast(msg) {
+            const t = document.getElementById('toastMsg');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove('show'), 4500);
+        }
+
+        /* --------------------------------------------------
+           INTERACTIVE CHECKLIST (persists via localStorage)
+        -------------------------------------------------- */
+        function toggleCheck(itemId) {
+            const item = document.getElementById(itemId);
+            if (!item) return;
+            const box = item.querySelector('.check-box');
+            const isCompleted = item.classList.toggle('completed');
+            box.textContent = isCompleted ? '✅' : '☐';
+            // Persist state
+            const saved = JSON.parse(localStorage.getItem('aip-checklist') || '{}');
+            saved[itemId] = isCompleted;
+            localStorage.setItem('aip-checklist', JSON.stringify(saved));
+        }
+
+        function restoreChecklist() {
+            const saved = JSON.parse(localStorage.getItem('aip-checklist') || '{}');
+            Object.entries(saved).forEach(([itemId, isCompleted]) => {
+                if (!isCompleted) return;
+                const item = document.getElementById(itemId);
+                if (!item) return;
+                item.classList.add('completed');
+                const box = item.querySelector('.check-box');
+                if (box) box.textContent = '✅';
+            });
+        }
+        restoreChecklist();
 
         /* --------------------------------------------------
            APP AUDIT SEARCH
@@ -1903,6 +2576,67 @@ Best regards,
 
         renderAppAudit();
         renderPrompts();
+
+        /* --------------------------------------------------
+           MOBILE MENU TOGGLE
+        -------------------------------------------------- */
+        function toggleMobileMenu() {
+            const sidebar  = document.getElementById('sidebar');
+            const overlay  = document.getElementById('mobileOverlay');
+            const btn      = document.getElementById('hamburgerBtn');
+            const isOpen   = sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('active', isOpen);
+            btn.textContent = isOpen ? '✕' : '☰';
+        }
+
+        /* --------------------------------------------------
+           PRINT CONSTITUTION
+        -------------------------------------------------- */
+        function printConstitution() {
+            const sections = [];
+            for (let i = 1; i <= 6; i++) {
+                const block = document.getElementById('const-s' + i);
+                if (!block) continue;
+                const title = block.querySelector('h3')?.innerText || '';
+                const body  = block.querySelector('pre')?.innerText || '';
+                sections.push({ title, body });
+            }
+            let sectionsHtml = sections.map((s, i) => `
+                <div class="sec">
+                    <div class="sec-header"><span class="num">${i + 1}</span><h3>${s.title}</h3></div>
+                    <pre>${s.body}</pre>
+                </div>`).join('');
+
+            const html = `<!DOCTYPE html><html><head><title>Family AI Constitution — AI Parenting Protocol</title>
+            <style>
+                *{box-sizing:border-box;margin:0;padding:0}
+                body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;padding:28px;color:#334155;font-size:12px;max-width:800px;margin:0 auto}
+                h1{font-size:20px;color:#072a51;margin-bottom:4px}
+                .subtitle{color:#64748b;font-size:11px;margin-bottom:6px}
+                .sig-line{display:flex;gap:40px;font-size:11px;margin:10px 0 24px;color:#64748b;border-top:1px solid #e2e8f0;padding-top:10px}
+                .sec{margin-bottom:18px;page-break-inside:avoid}
+                .sec-header{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+                .num{width:22px;height:22px;border-radius:50%;background:#072a51;color:#fff;font-weight:800;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+                h3{font-size:13px;color:#072a51;font-weight:700}
+                pre{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:6px;padding:10px;font-size:10.5px;color:#475569;white-space:pre-wrap;font-family:inherit;line-height:1.65}
+                footer{margin-top:28px;padding-top:12px;border-top:1px solid #e2e8f0;font-size:10px;color:#94a3b8;text-align:center}
+                @media print{body{padding:16px}}
+            </style></head><body>
+            <h1>The [Family Name] Family AI Agreement</h1>
+            <p class="subtitle">Created with the AI Parenting Protocol — Implementation Command Center</p>
+            <div class="sig-line">
+                <span>Signed: _______________________</span>
+                <span>Date: _______________________</span>
+                <span>Review Date: _______________________</span>
+            </div>
+            ${sectionsHtml}
+            <footer>AI Parenting Protocol &copy; 2026 Resonance Connection, LLC</footer>
+            <script>window.onload=function(){window.print()}<\/script>
+            </body></html>`;
+            const w = window.open('', '_blank');
+            w.document.write(html);
+            w.document.close();
+        }
 
         /* --------------------------------------------------
            BATTLE CARD FILTER
