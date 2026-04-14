@@ -869,7 +869,11 @@
         .home-tool-row:hover .home-tool-arrow { color: var(--accent-blue); }
         .step-link { cursor: pointer; }
         .step-link:hover { color: var(--accent-blue); text-decoration: underline; }
-        @media (max-width: 600px) { .home-persona-row { grid-template-columns: 1fr; } }
+        @media (max-width: 600px) {
+            .home-persona-row { grid-template-columns: 1fr; }
+            .prompt-levels-grid { grid-template-columns: 1fr !important; }
+            .audit-checks-grid { grid-template-columns: 1fr !important; }
+        }
     </style>
 </head>
 <body>
@@ -1022,7 +1026,7 @@
             <div class="card" style="margin-top:24px;border-left:4px solid var(--accent-blue);">
                 <h3 style="margin-bottom:6px;">⚡ The 2-Minute Audit — For Any App Not on This List</h3>
                 <p style="color:#64748b;font-size:0.9rem;margin-bottom:16px;">New apps drop weekly. Use these three questions to vet anything before your child installs it — no research required.</p>
-                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;">
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
                     <div style="background:#f8fafc;border-radius:8px;padding:14px;">
                         <div style="font-weight:800;color:var(--primary-navy);font-size:0.88rem;margin-bottom:6px;">🔎 Check 1 — The Incognito Test</div>
                         <p style="font-size:0.85rem;color:#475569;line-height:1.6;margin:0;">Does it have a Private or Incognito mode that hides history from parents? <strong>Avoid any app with disappearing messages or hidden sessions.</strong> Transparency is non-negotiable.</p>
@@ -1090,48 +1094,41 @@ Start by asking: "What are we working on today, and what have you tried so far?"
 
             <!-- Install Levels 2 & 3 -->
             <div class="card" style="margin-bottom:24px;">
-                <h3 style="margin-bottom:4px;">⚙️ Make It Permanent — Two Upgrade Options</h3>
-                <p style="color:#64748b;font-size:0.88rem;margin-bottom:18px;">The Master Prompt above works great for one session. These two options make tutor mode automatic — so your child never has to paste it again.</p>
+                <h3 style="margin-bottom:4px;">⚙️ Skip the Daily Paste — Adjust Your App Settings</h3>
+                <p style="color:#64748b;font-size:0.88rem;margin-bottom:16px;">The Master Prompt above works for one session. These two options reduce the friction — set it once and your child doesn't have to copy anything.</p>
 
-                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
 
-                    <div style="border:1px solid #e2e8f0;border-radius:10px;padding:16px;">
-                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-                            <span style="background:var(--primary-navy);color:white;font-size:0.72rem;font-weight:800;padding:3px 9px;border-radius:20px;">Level 2</span>
-                            <strong style="color:var(--primary-navy);font-size:0.93rem;">System Overlay — Home Guardrail</strong>
+                    <div style="border:1px solid #e2e8f0;border-radius:10px;padding:14px;">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                            <span style="background:var(--primary-navy);color:white;font-size:0.7rem;font-weight:800;padding:2px 8px;border-radius:20px;">Level 2</span>
+                            <strong style="color:var(--primary-navy);font-size:0.9rem;">App Settings Overlay</strong>
                         </div>
-                        <p style="font-size:0.85rem;color:#64748b;margin-bottom:12px;line-height:1.6;">Set once in the app's settings so tutor mode applies to <em>all</em> conversations automatically. Your child opens the app and it's already in tutor mode — no copying required.</p>
-                        <pre id="system-overlay-prompt">Act as a Socratic Tutor for any educational, homework, or skill-building questions. Do not give the final answer — instead, ask one guiding question at a time to help the student think through the problem. For simple non-school questions (facts, weather, pop culture), respond normally.</pre>
-                        <button class="copy-btn" onclick="copyText('system-overlay-prompt')" style="margin-bottom:14px;">Copy System Prompt</button>
-                        <div style="background:#f8fafc;border-radius:7px;padding:12px;font-size:0.83rem;color:#475569;">
-                            <strong style="display:block;margin-bottom:6px;color:var(--primary-navy);">Where to paste it:</strong>
-                            <div style="margin-bottom:4px;">💬 <strong>ChatGPT:</strong> Settings → Personalization → Custom Instructions</div>
-                            <div style="margin-bottom:4px;">✨ <strong>Gemini:</strong> Settings → Your instructions for Gemini</div>
-                            <div>🤖 <strong>Claude:</strong> Profile → Settings → Personalization</div>
+                        <p style="font-size:0.82rem;color:#64748b;margin-bottom:10px;line-height:1.5;">Paste once into the app's Custom Instructions so tutor mode applies to every conversation automatically.</p>
+                        <pre id="system-overlay-prompt" style="font-size:0.78rem;">Act as a Socratic Tutor for any educational, homework, or skill-building questions. Do not give the final answer — instead, ask one guiding question at a time to help the student think through the problem. For simple non-school questions (facts, weather, pop culture), respond normally.</pre>
+                        <button class="copy-btn" onclick="copyText('system-overlay-prompt')" style="margin:8px 0 10px;">Copy Prompt</button>
+                        <div style="background:#f8fafc;border-radius:6px;padding:10px;font-size:0.8rem;color:#475569;line-height:1.7;">
+                            💬 <strong>ChatGPT:</strong> Settings → Personalization → Custom Instructions<br>
+                            ✨ <strong>Gemini:</strong> Settings → Your instructions for Gemini<br>
+                            🤖 <strong>Claude:</strong> Profile → Settings → Personalization
+                        </div>
+                    </div>
+
+                    <div style="border:1px solid #e2e8f0;border-radius:10px;padding:14px;">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                            <span style="background:var(--brand-green);color:white;font-size:0.7rem;font-weight:800;padding:2px 8px;border-radius:20px;">Level 3</span>
+                            <strong style="color:var(--primary-navy);font-size:0.9rem;">Build a Dedicated Study Bot</strong>
+                        </div>
+                        <p style="font-size:0.82rem;color:#64748b;margin-bottom:10px;line-height:1.5;">Create a custom GPT or Gem named "Biology Coach" or "Essay Partner" — tutor mode baked in, syllabus uploadable.</p>
+                        <pre id="dedicated-bot-prompt" style="font-size:0.78rem;">You are a Socratic tutor for [SUBJECT]. Student is in [GRADE]. Never give direct answers — ask one guiding question at a time. Offer a hint after 3 stuck attempts. End each session: "Here's what you figured out today: [insight]." Start: "What are we working on, and what have you tried?"</pre>
+                        <button class="copy-btn" onclick="copyText('dedicated-bot-prompt')" style="margin:8px 0 10px;">Copy Bot Prompt</button>
+                        <div style="background:#f0fdf4;border-radius:6px;padding:10px;font-size:0.8rem;color:#14532d;line-height:1.6;">
+                            💬 <strong>ChatGPT:</strong> Explore GPTs → Create<br>
+                            ✨ <strong>Gemini:</strong> Gems → New Gem<br>
+                            Paste prompt, name it, optionally upload their syllabus.
                         </div>
                     </div>
 
-                    <div style="border:1px solid #e2e8f0;border-radius:10px;padding:16px;">
-                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-                            <span style="background:var(--brand-green);color:white;font-size:0.72rem;font-weight:800;padding:3px 9px;border-radius:20px;">Level 3</span>
-                            <strong style="color:var(--primary-navy);font-size:0.93rem;">Dedicated Bot — The Study Room</strong>
-                        </div>
-                        <p style="font-size:0.85rem;color:#64748b;margin-bottom:12px;line-height:1.6;">Build a standalone "Study Room" bot — a custom GPT or Gem — with tutor mode already baked in. Your child clicks "Biology Coach" or "Essay Partner" and the tutor is ready. You can even upload their class syllabus or grading rubric.</p>
-                        <pre id="dedicated-bot-prompt">You are a dedicated Socratic tutor specializing in [SUBJECT — e.g. AP Biology / Algebra 2 / SAT Reading]. Your student is in [GRADE].
-
-Rules for every conversation:
-- Never give a direct answer to a homework or test-prep question
-- Ask one guiding question at a time
-- If stuck after 3 attempts, offer one specific hint — not the solution
-- After a correct response, explain WHY it's correct in plain language
-- End every session with: "Here's the one thing you figured out today: [insight]"
-
-Start by asking: "What are we working on, and what have you already tried?"</pre>
-                        <button class="copy-btn" onclick="copyText('dedicated-bot-prompt')" style="margin-top:10px;">Copy Bot Prompt</button>
-                        <div style="margin-top:12px;background:#f0fdf4;border-radius:7px;padding:10px;font-size:0.82rem;color:#14532d;line-height:1.5;">
-                            <strong>How to build it:</strong> In ChatGPT → "Explore GPTs" → "Create." In Gemini → "Gems" → "New Gem." Paste the prompt above, name it (e.g. "Emma's Math Coach"), and optionally upload the class syllabus as context.
-                        </div>
-                    </div>
                 </div>
             </div>
 
