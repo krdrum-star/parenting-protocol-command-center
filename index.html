@@ -242,9 +242,43 @@
         }
 
         @media (max-width: 768px) {
-            .audit-table { font-size: 14px; display: block; overflow-x: auto; }
-            .audit-table th,
-            .audit-table td { padding: 10px 8px; }
+            .audit-table { font-size: 13px; }
+            .audit-table thead { display: none; }
+            .audit-table, .audit-table tbody, .audit-table tr, .audit-table td { display: block; width: 100%; }
+            .audit-table tr {
+                margin-bottom: 16px;
+                border: 1px solid #e2e8f0;
+                border-radius: 10px;
+                overflow: hidden;
+                background: white;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            }
+            .audit-table td {
+                display: flex;
+                gap: 10px;
+                align-items: flex-start;
+                padding: 10px 14px;
+                border-bottom: 1px solid #f1f5f9;
+                text-align: left;
+            }
+            .audit-table td:first-child {
+                background: #f8fafc;
+                border-right: none;
+                padding: 10px 14px;
+            }
+            .audit-table td[data-label]:not([data-label=""])::before {
+                content: attr(data-label);
+                font-size: 0.62rem;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                color: #94a3b8;
+                min-width: 68px;
+                flex-shrink: 0;
+                padding-top: 2px;
+                line-height: 1.4;
+            }
+            .audit-table td:last-child { border-bottom: none; }
         }
 
         /* ==========================================================
@@ -893,7 +927,7 @@
                 <li id="li-prompts"      onclick="showTab('prompts')"      ><i class="fas fa-book"></i> Prompt Vault</li>
                 <li id="li-conversation" onclick="showTab('conversation')" ><i class="fas fa-comments"></i> Conversation Guide</li>
                 <li id="li-emergency"    onclick="showTab('emergency')"    ><i class="fas fa-life-ring"></i> Emergency Scripts</li>
-                <li id="li-scripts"      onclick="showTab('scripts')"      ><i class="fas fa-envelope"></i> School Liaison</li>
+                <li id="li-scripts"      onclick="showTab('scripts')"      ><i class="fas fa-envelope"></i> School Emails</li>
                 <li id="li-disclosure"   onclick="showTab('disclosure')"   ><i class="fas fa-file-lines"></i> Disclosure Kit</li>
                 <li id="li-constitution" onclick="showTab('constitution')" ><i class="fas fa-scroll"></i> Constitution Builder</li>
             </ul>
@@ -911,7 +945,7 @@
 
             <!-- Welcome Block -->
             <div class="home-welcome">
-                <h1>Welcome to Your Implementation Command Center</h1>
+                <h1>Welcome to Your AI Parenting Hub</h1>
                 <p class="home-welcome-body">Thank you for being here — this dashboard is your one-stop hub for everything in the AI Parenting Protocol. No separate handouts, no PDFs to track down. It's all here, interactive and ready to use.</p>
                 <div class="home-persona-row">
                     <div class="home-persona-card">
@@ -932,6 +966,7 @@
             </div>
 
             <!-- What's Inside -->
+            <p style="font-size:0.88rem;background:#f0f7fb;border-left:3px solid #3191b7;border-radius:0 6px 6px 0;padding:9px 14px;margin:0 0 16px;color:#334155;"><strong>New to the dashboard?</strong> Start with the <span class="step-link" onclick="showTab('conversation')" style="color:#3191b7;font-weight:700;text-decoration:underline;cursor:pointer;">Conversation Guide</span> — the opening script on that page is the one thing to say to your child before anything else.</p>
             <p style="color:#64748b;font-size:0.93rem;margin:0 0 12px;">Seven tools, each mapped to a course module. Click any row to open it — and come back whenever you need them.</p>
             <div class="home-tool-list">
                 <div class="home-tool-row" onclick="showTab('audit')">
@@ -1012,7 +1047,7 @@
         <!-- ===================== APP AUDIT ===================== -->
         <div id="audit" class="tab-content">
             <h2 class="section-heading">AI App Audit</h2>
-            <p class="sub-header">Strategic Safety &amp; Pedagogy Ratings: Decision guide for 2026 AI implementation.</p>
+            <p class="sub-header">Safety &amp; learning ratings for the AI apps your kids are actually using — searchable and updated.</p>
 
             <div class="search-wrapper">
                 <input type="text" id="appSearch" class="search-box-audit"
@@ -1052,7 +1087,7 @@
         <!-- ===================== PROMPT VAULT ===================== -->
         <div id="prompts" class="tab-content">
             <h1>The Prompt Vault</h1>
-            <p class="sub-header">2026 Frameworks: Turning AI into a Socratic mentor for 50+ specialized subjects.</p>
+            <p class="sub-header">Copy-paste prompts that turn any AI into a tutor — not a homework-doer. 50+ subjects.</p>
 
             <div class="controls-row">
                 <input type="text" id="promptSearch" class="search-box"
@@ -1069,6 +1104,9 @@
                     <button class="filter-btn"        onclick="filterCategory(event, 'Life Skills')">Strategy &amp; Success</button>
                 </div>
             </div>
+
+            <!-- Orientation sentence -->
+            <p style="font-size:0.9rem;color:#475569;background:#f0fdf4;border-left:3px solid #40aa78;border-radius:0 6px 6px 0;padding:10px 14px;margin-bottom:20px;"><strong>How to use this:</strong> Find a subject your child is working on, copy the prompt below, and paste it into ChatGPT or Gemini on your child's device. The prompt does the rest — your child just starts typing their homework question.</p>
 
             <!-- Pinned: Set Up Tutor Mode Once -->
             <div class="card" style="border:2px solid var(--brand-green);margin-bottom:24px;position:relative;">
@@ -1143,15 +1181,18 @@ Start by asking: "What are we working on today, and what have you tried so far?"
             <p class="sub-header">Ready-to-use responses for the moments that catch you off guard.</p>
 
             <!-- Quick Jump -->
-            <div class="es-jump-row">
-                <button class="es-jump-btn" onclick="document.getElementById('es-sec-a').scrollIntoView({behavior:'smooth'})">🤔 Homework Unstuck</button>
-                <button class="es-jump-btn" onclick="document.getElementById('es-sec-b').scrollIntoView({behavior:'smooth'})">📧 School Flag Response</button>
-                <button class="es-jump-btn" onclick="document.getElementById('es-sec-c').scrollIntoView({behavior:'smooth'})">🚨 AI Safety Concern</button>
+            <div class="es-jump-row" style="justify-content:space-between;align-items:center;">
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <button class="es-jump-btn" onclick="document.getElementById('es-sec-a').scrollIntoView({behavior:'smooth'})">🤔 Homework Unstuck</button>
+                    <button class="es-jump-btn" onclick="document.getElementById('es-sec-b').scrollIntoView({behavior:'smooth'})">📧 School Flag Response</button>
+                    <button class="es-jump-btn" onclick="document.getElementById('es-sec-c').scrollIntoView({behavior:'smooth'})">🚨 AI Safety Concern</button>
+                </div>
+                <button class="btn-blue btn-sm" onclick="printEmergencyScripts()" style="white-space:nowrap;">🖨 Print Scripts</button>
             </div>
 
             <!-- ── Section A: Homework Unstuck ── -->
             <h2 id="es-sec-a" class="section-heading es-section-heading">Section A: Homework Unstuck</h2>
-            <p class="es-section-intro">For when your child hits a wall. <strong>These prompts are for your child to paste directly into any AI tool</strong> — they get AI back into tutor mode without doing the work for them.</p>
+            <p class="es-section-intro">For when your child hits a wall. <strong>These prompts are for your child to paste directly into any AI tool</strong> — they get AI back into tutor mode without doing the work for them. To use: open ChatGPT, Gemini, or Claude on their device, tap the message box, and paste the prompt. They take it from there.</p>
 
             <div class="es-grid">
 
@@ -1293,6 +1334,19 @@ Step 5: If the content involves self-harm or safety threats, contact the platfor
             <h1>Conversation Guide</h1>
             <p class="sub-header">Scripts and battle cards for starting — and surviving — the AI conversation with your kids.</p>
 
+            <!-- Start Here Framing Card -->
+            <div class="card start-here-card">
+                <p class="start-here-label">📌 Start Here — The One Thing to Say First</p>
+                <p class="start-here-intro">Before any script, any rule, any conversation about what AI can and can't do — say this to your child. Or something like it, in your own words.</p>
+                <pre id="cg-start">"I want you to be really successful as an adult. Not just get good grades — actually successful. Someone who can think through hard problems, learn new things fast, figure out what's true, and make smart decisions under pressure. Someone who can pursue whatever lights you up — your passion, your path, whatever that turns out to be — and actually thrive doing it. Not because someone handed it to you, but because you have the skills to figure things out, think strategically, and use every tool available to go further than you could on your own.
+
+AI can either help you build those skills faster, or it can quietly steal them from you while making everything look fine on the surface. A kid who uses AI to do their thinking can end up with good grades but weak skills. A kid who uses AI to push their thinking will end up with strong skills — and honestly, likely better grades too.
+
+That's the only thing I care about here. Think of it like a calculator — a great tool, but only if you understand the math underneath it. AI is the same idea, just for thinking. Use it. But make sure the thinking is still yours."</pre>
+                <button class="copy-btn" onclick="copyText('cg-start')">Copy Script</button>
+                <p class="why-it-works"><strong>Why this works:</strong> It removes the adversarial framing entirely. You're not a cop enforcing rules. You're a parent who wants them to win — and who sees a risk they might not see yet. That's a completely different conversation.</p>
+            </div>
+
             <!-- How-to-Use Banner -->
             <div class="card how-to-banner">
                 <p class="how-to-title">📋 How to Use This Tab</p>
@@ -1301,7 +1355,7 @@ Step 5: If the content involves self-harm or safety threats, contact the platfor
                         <div class="how-to-step-num">1</div>
                         <div>
                             <strong>Before the conversation</strong>
-                            <p>Read the opening script below. Copy it, practice it out loud, make it yours — it doesn't need to be verbatim.</p>
+                            <p>Read the opening script above. Copy it, practice it out loud, make it yours — it doesn't need to be verbatim.</p>
                         </div>
                     </div>
                     <div class="how-to-step">
@@ -1321,19 +1375,6 @@ Step 5: If the content involves self-harm or safety threats, contact the platfor
                 </div>
             </div>
 
-            <!-- Start Here Framing Card -->
-            <div class="card start-here-card">
-                <p class="start-here-label">📌 Start Here — The One Thing to Say First</p>
-                <p class="start-here-intro">Before any script, any rule, any conversation about what AI can and can't do — say this to your child. Or something like it, in your own words.</p>
-                <pre id="cg-start">"I want you to be really successful as an adult. Not just get good grades — actually successful. Someone who can think through hard problems, learn new things fast, figure out what's true, and make smart decisions under pressure. Someone who can pursue whatever lights you up — your passion, your path, whatever that turns out to be — and actually thrive doing it. Not because someone handed it to you, but because you have the skills to figure things out, think strategically, and use every tool available to go further than you could on your own.
-
-AI can either help you build those skills faster, or it can quietly steal them from you while making everything look fine on the surface. A kid who uses AI to do their thinking can end up with good grades but weak skills. A kid who uses AI to push their thinking will end up with strong skills — and honestly, likely better grades too.
-
-That's the only thing I care about here. Think of it like a calculator — a great tool, but only if you understand the math underneath it. AI is the same idea, just for thinking. Use it. But make sure the thinking is still yours."</pre>
-                <button class="copy-btn" onclick="copyText('cg-start')">Copy Script</button>
-                <p class="why-it-works"><strong>Why this works:</strong> It removes the adversarial framing entirely. You're not a cop enforcing rules. You're a parent who wants them to win — and who sees a risk they might not see yet. That's a completely different conversation.</p>
-            </div>
-
             <!-- Section A: Battle Cards -->
             <h2 class="section-heading" style="margin: 35px 0 6px;">Battle Cards — When Teens Push Back</h2>
             <p class="sub-header" style="margin-bottom: 16px;">Filter by situation type, click a card to expand the script, copy it, and say it in your own words.</p>
@@ -1341,7 +1382,7 @@ That's the only thing I care about here. Think of it like a calculator — a gre
             <!-- Filter row + Print button -->
             <div class="controls-row" style="margin-bottom: 20px;">
                 <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                    <button class="filter-btn active" onclick="filterBattleCards(event,'all')">All (14)</button>
+                    <button class="filter-btn active" id="battle-all-btn" onclick="filterBattleCards(event,'all')">All</button>
                     <button class="filter-btn" onclick="filterBattleCards(event,'Avoidance')">Avoidance</button>
                     <button class="filter-btn" onclick="filterBattleCards(event,'Shutdown')">Shutdown</button>
                     <button class="filter-btn" onclick="filterBattleCards(event,'Defensiveness')">Defensiveness</button>
@@ -2134,7 +2175,8 @@ Parent/Guardian: _________________  Date: ____________</pre>
                     <span style="font-size:1.8rem;">📜</span>
                     <div>
                         <h3 style="margin-bottom:6px;">How to Use This Tab</h3>
-                        <p style="color:#64748b;font-size:0.93rem;margin-bottom:10px;">A family AI Constitution is a living document — not a rulebook your child resents, but an agreement you <em>build together</em>. Read through the full template below, choose age-appropriate clauses from the library, then schedule one of the rituals to keep it alive. <em>Pairs with: Module 5</em></p>
+                        <p style="color:#64748b;font-size:0.93rem;margin-bottom:10px;">A family AI Constitution is a living document — not a rulebook your child resents, but an agreement you <em>build together</em>. Read through the full template below, choose age-appropriate clauses from the library, then schedule one of the rituals to keep it alive. <em>Pairs with: Module 6</em></p>
+                        <p style="color:#475569;font-size:0.88rem;margin-bottom:10px;background:#fefce8;border-radius:6px;padding:8px 12px;border-left:3px solid #eab308;"><strong>Not ready to build the whole thing?</strong> Start with just Section 1 (Our Values) and Section 2 (Approved Tools), sign it with your child, and come back for the rest when you're ready.</p>
                         <div style="display:flex;gap:12px;flex-wrap:wrap;">
                             <button class="btn-blue" onclick="printConstitution()" style="font-size:0.88rem;padding:9px 18px;">🖨️ Print / Save Constitution</button>
                         </div>
@@ -2647,15 +2689,15 @@ Reviews are a conversation, not an interrogation. All family members have a voic
 
                 html += `
                         <tr>
-                            <td>
+                            <td data-label="">
                                 <span class="audit-rating-emoji">${app.rating}</span>
                                 <span class="audit-rating-label">${app.status}</span>
                             </td>
-                            <td>${nameCell}</td>
-                            <td>${app.dna}</td>
-                            <td class="fw-bold">${app.pricing}</td>
-                            <td>${app.why}</td>
-                            <td class="text-navy">${app.action}</td>
+                            <td data-label="App">${nameCell}</td>
+                            <td data-label="What It Is">${app.dna}</td>
+                            <td data-label="Price" class="fw-bold">${app.pricing}</td>
+                            <td data-label="The Why">${app.why}</td>
+                            <td data-label="Action" class="text-navy">${app.action}</td>
                         </tr>`;
             });
 
@@ -2665,6 +2707,13 @@ Reviews are a conversation, not an interrogation. All family members have a voic
 
         renderAppAudit();
         renderPrompts();
+
+        // Dynamic battle card count
+        (function() {
+            const btn = document.getElementById('battle-all-btn');
+            const count = document.querySelectorAll('.battle-card').length;
+            if (btn && count > 0) btn.textContent = 'All (' + count + ')';
+        })();
 
         /* --------------------------------------------------
            MOBILE MENU TOGGLE
@@ -2676,6 +2725,57 @@ Reviews are a conversation, not an interrogation. All family members have a voic
             const isOpen   = sidebar.classList.toggle('mobile-open');
             overlay.classList.toggle('active', isOpen);
             btn.textContent = isOpen ? '✕' : '☰';
+        }
+
+        /* --------------------------------------------------
+           PRINT EMERGENCY SCRIPTS
+        -------------------------------------------------- */
+        function printEmergencyScripts() {
+            const sections = [
+                { heading: 'Section A — Homework Unstuck', ids: ['es1','es2','es3','es4','es5'] },
+                { heading: 'Section B — School Flag Response', ids: ['es6','es7','es8'] },
+                { heading: 'Section C — AI Safety Concern', ids: ['es9','es10','es11'] }
+            ];
+            let body = '';
+            sections.forEach(sec => {
+                body += `<h2>${sec.heading}</h2>`;
+                sec.ids.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (!el) return;
+                    const card = el.closest('.card');
+                    const title   = card?.querySelector('h3')?.innerText || '';
+                    const when    = card?.querySelector('.es-when')?.innerText || '';
+                    const script  = el.innerText;
+                    body += `<div class="blk">
+                        <h3>${title}</h3>
+                        <p class="wh">${when}</p>
+                        <div class="scr">${script.replace(/\n/g,'<br>')}</div>
+                    </div>`;
+                });
+            });
+            const html = `<!DOCTYPE html><html><head><title>Emergency Scripts — AI Parenting Protocol</title>
+            <style>
+                *{box-sizing:border-box;margin:0;padding:0}
+                body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;padding:28px;color:#334155;font-size:12px;max-width:800px;margin:0 auto}
+                h1{font-size:20px;color:#072a51;margin-bottom:4px}
+                .sub{color:#64748b;font-size:11px;margin-bottom:20px}
+                h2{font-size:13px;color:#072a51;margin:22px 0 10px;padding-bottom:6px;border-bottom:2px solid #072a51;text-transform:uppercase;letter-spacing:.05em}
+                .blk{margin-bottom:14px;page-break-inside:avoid;border:1px solid #e2e8f0;border-radius:6px;padding:12px}
+                h3{font-size:12px;color:#072a51;margin-bottom:3px}
+                .wh{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#3191b7;margin-bottom:7px}
+                .scr{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:5px;padding:9px;font-size:10.5px;color:#475569;line-height:1.6}
+                footer{margin-top:28px;padding-top:12px;border-top:1px solid #e2e8f0;font-size:10px;color:#94a3b8;text-align:center}
+                @media print{body{padding:16px}}
+            </style></head><body>
+            <h1>Emergency Scripts</h1>
+            <p class="sub">AI Parenting Protocol — Ready-to-use responses for the moments that catch you off guard.</p>
+            ${body}
+            <footer>AI Parenting Protocol &copy; 2026 Resonance Connection, LLC</footer>
+            <script>window.onload=function(){window.print()}<\/script>
+            </body></html>`;
+            const w = window.open('', '_blank');
+            w.document.write(html);
+            w.document.close();
         }
 
         /* --------------------------------------------------
@@ -2712,7 +2812,7 @@ Reviews are a conversation, not an interrogation. All family members have a voic
                 @media print{body{padding:16px}}
             </style></head><body>
             <h1>The [Family Name] Family AI Agreement</h1>
-            <p class="subtitle">Created with the AI Parenting Protocol — Implementation Command Center</p>
+            <p class="subtitle">Created with the AI Parenting Protocol — AI Parenting Hub</p>
             <div class="sig-line">
                 <span>Signed: _______________________</span>
                 <span>Date: _______________________</span>
